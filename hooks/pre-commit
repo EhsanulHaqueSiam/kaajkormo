@@ -1,0 +1,30 @@
+#!/bin/sh
+# Pre-commit hook: lint staged files
+
+echo "Running pre-commit checks..."
+
+# Frontend: Biome check on staged files
+FRONTEND_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '^frontend/src/' | grep -E '\.(ts|tsx|js|jsx)$')
+if [ -n "$FRONTEND_FILES" ]; then
+    echo "Checking frontend files..."
+    cd frontend && bunx biome check --no-errors-on-unmatched $FRONTEND_FILES
+    if [ $? -ne 0 ]; then
+        echo "Frontend lint failed. Fix errors before committing."
+        exit 1
+    fi
+    cd ..
+fi
+
+# Backend: cargo fmt check on staged Rust files
+BACKEND_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '^backend/src/' | grep '\.rs$')
+if [ -n "$BACKEND_FILES" ]; then
+    echo "Checking backend formatting..."
+    cd backend && cargo fmt --check
+    if [ $? -ne 0 ]; then
+        echo "Backend format check failed. Run 'cargo fmt' before committing."
+        exit 1
+    fi
+    cd ..
+fi
+
+echo "Pre-commit checks passed!"

@@ -1,0 +1,12 @@
+pub mod application;
+pub mod application_event;
+pub mod candidate;
+pub mod candidate_rating;
+pub mod company;
+pub mod interview;
+pub mod job;
+pub mod job_alert;
+pub mod notification;
+pub mod resume_parse;
+pub mod swipe_history;
+pub mod user;

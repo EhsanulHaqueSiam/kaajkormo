@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: kaajkormo-db
+    environment:
+      POSTGRES_USER: kaajkormo
+      POSTGRES_PASSWORD: kaajkormo
+      POSTGRES_DB: kaajkormo
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kaajkormo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

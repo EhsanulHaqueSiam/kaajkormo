@@ -245,19 +245,65 @@ mise run clean:all        # Deep clean (removes node_modules too)
 
 ## Screenshots
 
-> Screenshots will be added once the application is deployed with real data.
-
 ### Landing Page
-`[Coming Soon]`
+![Landing Page](screenshots/01-landing.png)
 
-### Discover (Swipe to Apply)
-`[Coming Soon]`
+### Browse Jobs
+![Jobs Listing](screenshots/02-jobs-listing.png)
+
+### Job Detail
+![Job Detail](screenshots/02b-job-detail.png)
+
+### Discover — Swipe to Apply
+![Discover Swipe](screenshots/03-discover-swipe.png)
 
 ### Candidate Dashboard
-`[Coming Soon]`
+![Candidate Dashboard](screenshots/04-candidate-dashboard.png)
 
-### Employer Kanban Board
-`[Coming Soon]`
+### Candidate Profile Editor
+![Candidate Profile](screenshots/05-candidate-profile.png)
+
+### Application Tracker
+![Applications](screenshots/06-candidate-applications.png)
+
+### Job Alerts
+![Job Alerts](screenshots/07-candidate-alerts.png)
+
+### Notifications
+![Notifications](screenshots/09-notifications.png)
+
+### Employer Dashboard
+![Employer Dashboard](screenshots/10-employer-dashboard.png)
+
+### Post a Job (Multi-Step Form)
+![Post Job](screenshots/11-employer-post-job.png)
+
+### CV Bank — Candidate Search
+![Candidates](screenshots/12-employer-candidates.png)
+
+### Interview Management
+![Interviews](screenshots/13-employer-interviews.png)
+
+### Applicant Kanban Board
+![Kanban Board](screenshots/14-employer-kanban.png)
+
+### Company Profile Editor
+![Company Profile](screenshots/15-employer-company-profile.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/16-admin-dashboard.png)
+
+### Admin — Job Moderation
+![Admin Jobs](screenshots/17-admin-jobs.png)
+
+### Admin — User Management
+![Admin Users](screenshots/18-admin-users.png)
+
+### Mobile — Landing Page
+![Mobile Landing](screenshots/19-mobile-landing.png)
+
+### Mobile — Discover
+![Mobile Discover](screenshots/20-mobile-discover.png)
 
 ---
 

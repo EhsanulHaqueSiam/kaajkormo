@@ -44,5 +44,5 @@ backend/uploads/
 # Bun
 frontend/bun.lockb
 
-# Screenshots (generated)
-screenshots/
+# Playwright CLI artifacts
+.playwright-cli/

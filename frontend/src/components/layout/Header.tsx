@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton } from "../../lib/auth-components";
 import { Menu, Compass } from "lucide-react";
 import { useAppUser } from "../../lib/auth";
 import { Button } from "../ui/Button";

@@ -1,20 +1,20 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, AnimatePresence } from "framer-motion";
-import { Bell, Plus, Trash2, Pause, Play, Mail } from "lucide-react";
-import { Card } from "../../components/ui/Card";
-import { Button } from "../../components/ui/Button";
+import { AnimatePresence, motion } from "framer-motion";
+import { Bell, Mail, Pause, Play, Plus, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { Badge } from "../../components/ui/Badge";
+import { Button } from "../../components/ui/Button";
+import { Card } from "../../components/ui/Card";
+import { EmptyState } from "../../components/ui/EmptyState";
 import { Input } from "../../components/ui/Input";
 import { Modal } from "../../components/ui/Modal";
 import { Spinner } from "../../components/ui/Spinner";
-import { EmptyState } from "../../components/ui/EmptyState";
 import { showToast } from "../../components/ui/Toast";
 import {
-  useJobAlerts,
   useCreateJobAlert,
-  useUpdateJobAlert,
   useDeleteJobAlert,
+  useJobAlerts,
+  useUpdateJobAlert,
 } from "../../lib/queries/alerts";
 import { formatDate } from "../../lib/utils";
 
@@ -46,7 +46,12 @@ function AlertsPage() {
     try {
       await createAlert.mutateAsync({
         name,
-        criteria: { keywords: keywords.split(",").map((k) => k.trim()).filter(Boolean) },
+        criteria: {
+          keywords: keywords
+            .split(",")
+            .map((k) => k.trim())
+            .filter(Boolean),
+        },
         frequency,
       });
       showToast.success("Alert created!");
@@ -116,7 +121,13 @@ function AlertsPage() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      icon={alert.is_active ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                      icon={
+                        alert.is_active ? (
+                          <Pause className="h-4 w-4" />
+                        ) : (
+                          <Play className="h-4 w-4" />
+                        )
+                      }
                       onClick={() =>
                         updateAlert.mutate({ id: alert.id, is_active: !alert.is_active })
                       }
@@ -169,8 +180,12 @@ function AlertsPage() {
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="outline" onClick={() => setShowCreate(false)}>Cancel</Button>
-            <Button onClick={handleCreate} loading={createAlert.isPending}>Create Alert</Button>
+            <Button variant="outline" onClick={() => setShowCreate(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleCreate} loading={createAlert.isPending}>
+              Create Alert
+            </Button>
           </div>
         </div>
       </Modal>

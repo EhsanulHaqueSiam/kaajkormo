@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Card } from "../../components/ui/Card";
+import { useState } from "react";
 import { Badge } from "../../components/ui/Badge";
 import { Button } from "../../components/ui/Button";
+import { Card } from "../../components/ui/Card";
 import { Spinner } from "../../components/ui/Spinner";
 import { useAdminUsers, useToggleUserActive } from "../../lib/queries/admin";
 import { formatDate } from "../../lib/utils";
@@ -64,15 +64,11 @@ function AdminUsersPage() {
                 {users.map((user) => (
                   <tr key={user.id}>
                     <td className="px-4 py-4">
-                      <p className="font-medium text-gray-900">
-                        {user.full_name}
-                      </p>
+                      <p className="font-medium text-gray-900">{user.full_name}</p>
                       <p className="text-xs text-gray-500">{user.email}</p>
                     </td>
                     <td className="px-4 py-4">
-                      <Badge variant={roleVariant[user.role] ?? "default"}>
-                        {user.role}
-                      </Badge>
+                      <Badge variant={roleVariant[user.role] ?? "default"}>{user.role}</Badge>
                     </td>
                     <td className="px-4 py-4">
                       <Badge variant={user.is_active ? "success" : "danger"}>
@@ -88,8 +84,7 @@ function AdminUsersPage() {
                           variant={user.is_active ? "danger" : "outline"}
                           size="sm"
                           loading={
-                            toggleActive.isPending &&
-                            toggleActive.variables?.userId === user.id
+                            toggleActive.isPending && toggleActive.variables?.userId === user.id
                           }
                           onClick={() =>
                             toggleActive.mutate({

@@ -1,28 +1,28 @@
-import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
-  Search,
-  Upload,
-  MousePointerClick,
+  ArrowRight,
   Briefcase,
+  Building,
+  CheckCircle,
   Code,
-  Megaphone,
-  Palette,
-  TrendingUp,
-  Users,
   GraduationCap,
   Heart,
-  Wrench,
-  Building,
-  ArrowRight,
+  Megaphone,
+  MousePointerClick,
+  Palette,
+  Search,
   Sparkles,
-  CheckCircle,
-  Zap,
   Star,
+  TrendingUp,
+  Upload,
+  Users,
+  Wrench,
+  Zap,
 } from "lucide-react";
-import { Button } from "../components/ui/Button";
+import { useState } from "react";
 import { JobCard, JobCardSkeleton } from "../components/jobs/JobCard";
+import { Button } from "../components/ui/Button";
 import { useFeaturedJobs } from "../lib/queries/jobs";
 
 export const Route = createFileRoute("/")({
@@ -105,12 +105,11 @@ function LandingPage() {
               Bangladesh's Premier Job Portal
             </div>
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-              Find Your Dream Job in{" "}
-              <span className="gradient-text">Bangladesh</span>
+              Find Your Dream Job in <span className="gradient-text">Bangladesh</span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-gray-500">
-              Connect with top employers across Bangladesh. Swipe through curated opportunities
-              or search by skills, location, and more.
+              Connect with top employers across Bangladesh. Swipe through curated opportunities or
+              search by skills, location, and more.
             </p>
           </motion.div>
 
@@ -137,7 +136,10 @@ function LandingPage() {
             </div>
           </motion.form>
 
-          <motion.div variants={fadeUp} className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm text-gray-500">
+          <motion.div
+            variants={fadeUp}
+            className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm text-gray-500"
+          >
             <span>Popular:</span>
             {["React", "Python", "Marketing", "Accountant"].map((term) => (
               <Link
@@ -289,7 +291,9 @@ function LandingPage() {
                   <div className="rounded-xl bg-primary-50 p-3 text-primary-600 transition-colors group-hover:bg-primary-100">
                     <cat.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 group-hover:text-primary-600">{cat.name}</h3>
+                  <h3 className="font-semibold text-gray-900 group-hover:text-primary-600">
+                    {cat.name}
+                  </h3>
                 </Link>
               </motion.div>
             ))}
@@ -312,8 +316,8 @@ function LandingPage() {
                 Hire the Best Talent in Bangladesh
               </h2>
               <p className="mt-4 text-gray-500 leading-relaxed">
-                Post your job openings and reach thousands of qualified candidates.
-                Our smart matching algorithm connects you with the right people faster.
+                Post your job openings and reach thousands of qualified candidates. Our smart
+                matching algorithm connects you with the right people faster.
               </p>
               <ul className="mt-6 space-y-3">
                 {[
@@ -351,7 +355,10 @@ function LandingPage() {
                 </div>
                 <div className="space-y-3">
                   {["Published", "In Review", "Interviewing"].map((status, i) => (
-                    <div key={status} className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                    <div
+                      key={status}
+                      className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+                    >
                       <span className="text-sm font-medium text-gray-700">{status}</span>
                       <span className="rounded-full bg-primary-100 px-2.5 py-0.5 text-xs font-bold text-primary-700">
                         {[12, 8, 5][i]}
@@ -375,7 +382,8 @@ function LandingPage() {
             variants={fadeUp}
             className="relative overflow-hidden rounded-3xl p-1"
             style={{
-              background: "linear-gradient(135deg, var(--color-primary-500), var(--color-accent-500))",
+              background:
+                "linear-gradient(135deg, var(--color-primary-500), var(--color-accent-500))",
             }}
           >
             <div className="glass-strong relative rounded-[22px] px-8 py-14 text-center sm:px-16">

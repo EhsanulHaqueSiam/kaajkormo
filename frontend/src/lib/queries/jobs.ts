@@ -1,18 +1,15 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { Job, JobSearchParams, PaginatedResponse } from "../../types";
 import { api } from "../api";
-import type { Job, PaginatedResponse, JobSearchParams } from "../../types";
 
 export function useJobs(params: JobSearchParams) {
   const searchParams = new URLSearchParams();
   if (params.q) searchParams.set("q", params.q);
   if (params.job_type) searchParams.set("job_type", params.job_type);
-  if (params.experience_level)
-    searchParams.set("experience_level", params.experience_level);
+  if (params.experience_level) searchParams.set("experience_level", params.experience_level);
   if (params.location) searchParams.set("location", params.location);
-  if (params.is_remote !== undefined)
-    searchParams.set("is_remote", String(params.is_remote));
-  if (params.skills?.length)
-    searchParams.set("skills", params.skills.join(","));
+  if (params.is_remote !== undefined) searchParams.set("is_remote", String(params.is_remote));
+  if (params.skills?.length) searchParams.set("skills", params.skills.join(","));
   if (params.page) searchParams.set("page", String(params.page));
   if (params.per_page) searchParams.set("per_page", String(params.per_page));
 
@@ -34,8 +31,7 @@ export function useJob(slug: string) {
 export function useFeaturedJobs() {
   return useQuery({
     queryKey: ["jobs", "featured"],
-    queryFn: () =>
-      api.get<PaginatedResponse<Job>>("/api/jobs?featured=true&per_page=6"),
+    queryFn: () => api.get<PaginatedResponse<Job>>("/api/jobs?featured=true&per_page=6"),
   });
 }
 

@@ -1,35 +1,38 @@
-import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
-  MapPin,
+  Bookmark,
   Briefcase,
+  Calendar,
+  CheckCircle,
   Clock,
   DollarSign,
-  Calendar,
-  Bookmark,
-  Zap,
-  CheckCircle,
   ExternalLink,
+  MapPin,
+  Zap,
 } from "lucide-react";
-import { Button } from "../../components/ui/Button";
+import { useState } from "react";
 import { Badge } from "../../components/ui/Badge";
+import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import { Modal } from "../../components/ui/Modal";
-import { Textarea } from "../../components/ui/Textarea";
-import { Spinner } from "../../components/ui/Spinner";
 import { ProgressBar } from "../../components/ui/Progress";
+import { Spinner } from "../../components/ui/Spinner";
+import { Textarea } from "../../components/ui/Textarea";
 import { showToast } from "../../components/ui/Toast";
-import { useJob, useApply, useSaveJob } from "../../lib/queries/jobs";
-import { useCandidateProfile } from "../../lib/queries/candidate";
 import { useAppUser } from "../../lib/auth";
-import { formatSalary, formatDate, timeAgo, matchScore } from "../../lib/utils";
+import { useCandidateProfile } from "../../lib/queries/candidate";
+import { useApply, useJob, useSaveJob } from "../../lib/queries/jobs";
+import { formatDate, formatSalary, matchScore, timeAgo } from "../../lib/utils";
 
 export const Route = createFileRoute("/jobs/$jobSlug")({
   component: JobDetailPage,
 });
 
-const typeBadge: Record<string, { label: string; variant: "default" | "success" | "warning" | "info" }> = {
+const typeBadge: Record<
+  string,
+  { label: string; variant: "default" | "success" | "warning" | "info" }
+> = {
   "full-time": { label: "Full-time", variant: "success" },
   "part-time": { label: "Part-time", variant: "info" },
   contract: { label: "Contract", variant: "warning" },
@@ -95,7 +98,9 @@ function JobDetailPage() {
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-gray-500">
-        <Link to="/jobs" className="hover:text-gray-700">Jobs</Link>
+        <Link to="/jobs" className="hover:text-gray-700">
+          Jobs
+        </Link>
         <span className="mx-2">/</span>
         <span className="text-gray-900">{job.title}</span>
       </nav>
@@ -136,10 +141,16 @@ function JobDetailPage() {
 
               {/* Meta grid */}
               <div className="mt-6 grid grid-cols-2 gap-4 rounded-xl bg-gray-50 p-4 sm:grid-cols-4">
-                <MetaItem icon={DollarSign} label="Salary" value={formatSalary(job.salary_min, job.salary_max, job.salary_currency)} />
+                <MetaItem
+                  icon={DollarSign}
+                  label="Salary"
+                  value={formatSalary(job.salary_min, job.salary_max, job.salary_currency)}
+                />
                 <MetaItem icon={Briefcase} label="Experience" value={job.experience_level} />
                 <MetaItem icon={Clock} label="Posted" value={timeAgo(job.created_at)} />
-                {job.deadline && <MetaItem icon={Calendar} label="Deadline" value={formatDate(job.deadline)} />}
+                {job.deadline && (
+                  <MetaItem icon={Calendar} label="Deadline" value={formatDate(job.deadline)} />
+                )}
               </div>
 
               {/* Match score */}
@@ -152,7 +163,12 @@ function JobDetailPage() {
                     </div>
                     <span className="text-sm font-bold text-primary-600">{score}%</span>
                   </div>
-                  <ProgressBar value={score} color={score >= 70 ? "success" : score >= 40 ? "primary" : "warning"} size="sm" className="mt-2" />
+                  <ProgressBar
+                    value={score}
+                    color={score >= 70 ? "success" : score >= 40 ? "primary" : "warning"}
+                    size="sm"
+                    className="mt-2"
+                  />
                 </div>
               )}
 
@@ -255,9 +271,13 @@ function JobDetailPage() {
                   <p className="mt-2 text-sm text-gray-500">{job.company.description}</p>
                 )}
                 <div className="mt-3 space-y-2 text-sm text-gray-600">
-                  {job.company.industry && <InfoRow label="Industry" value={job.company.industry} />}
+                  {job.company.industry && (
+                    <InfoRow label="Industry" value={job.company.industry} />
+                  )}
                   {job.company.size && <InfoRow label="Size" value={job.company.size} />}
-                  {job.company.location && <InfoRow label="Location" value={job.company.location} />}
+                  {job.company.location && (
+                    <InfoRow label="Location" value={job.company.location} />
+                  )}
                   {job.company.website && (
                     <a
                       href={job.company.website}
@@ -277,7 +297,11 @@ function JobDetailPage() {
       </div>
 
       {/* Apply Modal */}
-      <Modal open={showApplyModal} onClose={() => setShowApplyModal(false)} title={`Apply for ${job.title}`}>
+      <Modal
+        open={showApplyModal}
+        onClose={() => setShowApplyModal(false)}
+        title={`Apply for ${job.title}`}
+      >
         <div className="space-y-4">
           <p className="text-sm text-gray-500">
             Submit your application to {job.company?.name ?? "this company"}.
@@ -296,8 +320,12 @@ function JobDetailPage() {
             </div>
           )}
           <div className="flex justify-end gap-3">
-            <Button variant="outline" onClick={() => setShowApplyModal(false)}>Cancel</Button>
-            <Button onClick={handleApply} loading={apply.isPending}>Submit Application</Button>
+            <Button variant="outline" onClick={() => setShowApplyModal(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleApply} loading={apply.isPending}>
+              Submit Application
+            </Button>
           </div>
         </div>
       </Modal>
@@ -305,7 +333,15 @@ function JobDetailPage() {
   );
 }
 
-function MetaItem({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
+function MetaItem({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: React.ElementType;
+  label: string;
+  value: string;
+}) {
   return (
     <div>
       <div className="flex items-center gap-1.5 text-xs font-medium uppercase text-gray-500">

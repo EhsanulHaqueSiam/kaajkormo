@@ -1,11 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { Application, CandidateProfile, Job, PaginatedResponse } from "../../types";
 import { api } from "../api";
-import type {
-  Application,
-  CandidateProfile,
-  Job,
-  PaginatedResponse,
-} from "../../types";
 
 export function useCandidateApplications(status?: string) {
   const params = new URLSearchParams();
@@ -14,9 +9,7 @@ export function useCandidateApplications(status?: string) {
   return useQuery({
     queryKey: ["applications", "mine", status],
     queryFn: () =>
-      api.get<PaginatedResponse<Application>>(
-        `/api/applications/mine${qs ? `?${qs}` : ""}`,
-      ),
+      api.get<PaginatedResponse<Application>>(`/api/applications/mine${qs ? `?${qs}` : ""}`),
   });
 }
 

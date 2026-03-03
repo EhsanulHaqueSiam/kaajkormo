@@ -1,5 +1,5 @@
-import { forwardRef, useRef, useEffect, type TextareaHTMLAttributes } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { forwardRef, type TextareaHTMLAttributes, useEffect, useRef } from "react";
 import { cn } from "../../lib/utils";
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -10,7 +10,10 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ label, error, maxLength, autoResize = true, className, id, value, onChange, ...props }, ref) => {
+  (
+    { label, error, maxLength, autoResize = true, className, id, value, onChange, ...props },
+    ref,
+  ) => {
     const internalRef = useRef<HTMLTextAreaElement | null>(null);
     const charCount = typeof value === "string" ? value.length : 0;
 
@@ -18,16 +21,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       if (!autoResize || !internalRef.current) return;
       const el = internalRef.current;
       el.style.height = "auto";
-      el.style.height = el.scrollHeight + "px";
-    }, [value, autoResize]);
+      el.style.height = `${el.scrollHeight}px`;
+    }, [autoResize]);
 
     return (
       <div className="w-full">
         {label && (
-          <label
-            htmlFor={id}
-            className="mb-1.5 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-gray-700">
             {label}
           </label>
         )}

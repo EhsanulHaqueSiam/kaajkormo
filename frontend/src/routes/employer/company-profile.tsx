@@ -1,15 +1,12 @@
-import { useState, useEffect, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { type FormEvent, useEffect, useState } from "react";
+import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import { Input } from "../../components/ui/Input";
-import { Textarea } from "../../components/ui/Textarea";
 import { Select } from "../../components/ui/Select";
-import { Button } from "../../components/ui/Button";
 import { Spinner } from "../../components/ui/Spinner";
-import {
-  useCompanyProfile,
-  useUpdateCompanyProfile,
-} from "../../lib/queries/employer";
+import { Textarea } from "../../components/ui/Textarea";
+import { useCompanyProfile, useUpdateCompanyProfile } from "../../lib/queries/employer";
 
 export const Route = createFileRoute("/employer/company-profile")({
   component: CompanyProfilePage,
@@ -77,9 +74,7 @@ function CompanyProfilePage() {
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-6">
         <Card>
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">
-            Company Details
-          </h2>
+          <h2 className="mb-4 text-lg font-semibold text-gray-900">Company Details</h2>
           <div className="space-y-4">
             <Input
               id="companyName"
@@ -136,9 +131,7 @@ function CompanyProfilePage() {
           <Button type="submit" loading={update.isPending}>
             Save Company Profile
           </Button>
-          {saved && (
-            <span className="text-sm font-medium text-green-600">Saved!</span>
-          )}
+          {saved && <span className="text-sm font-medium text-green-600">Saved!</span>}
         </div>
       </form>
     </div>

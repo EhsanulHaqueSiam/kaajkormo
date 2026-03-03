@@ -1,24 +1,48 @@
-import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Briefcase, Eye, Star, Phone, MessageSquare, CheckCircle, XCircle, ArrowRight } from "lucide-react";
-import { Card } from "../../components/ui/Card";
+import {
+  ArrowRight,
+  Briefcase,
+  CheckCircle,
+  Eye,
+  MessageSquare,
+  Phone,
+  Star,
+  XCircle,
+} from "lucide-react";
+import { useState } from "react";
 import { Badge } from "../../components/ui/Badge";
-import { Spinner } from "../../components/ui/Spinner";
+import { Card } from "../../components/ui/Card";
 import { EmptyState } from "../../components/ui/EmptyState";
+import { Spinner } from "../../components/ui/Spinner";
 import { useCandidateApplications } from "../../lib/queries/candidate";
-import { formatDate, timeAgo, cn } from "../../lib/utils";
+import { cn, formatDate, timeAgo } from "../../lib/utils";
 
 export const Route = createFileRoute("/candidate/applications")({
   component: CandidateApplications,
 });
 
-const statusConfig: Record<string, { label: string; variant: "default" | "info" | "success" | "warning" | "danger"; icon: React.ReactNode }> = {
+const statusConfig: Record<
+  string,
+  {
+    label: string;
+    variant: "default" | "info" | "success" | "warning" | "danger";
+    icon: React.ReactNode;
+  }
+> = {
   pending: { label: "Pending", variant: "default", icon: <Briefcase className="h-3.5 w-3.5" /> },
   viewed: { label: "Viewed", variant: "info", icon: <Eye className="h-3.5 w-3.5" /> },
   shortlisted: { label: "Shortlisted", variant: "info", icon: <Star className="h-3.5 w-3.5" /> },
-  phone_screen: { label: "Phone Screen", variant: "warning", icon: <Phone className="h-3.5 w-3.5" /> },
-  interview: { label: "Interview", variant: "warning", icon: <MessageSquare className="h-3.5 w-3.5" /> },
+  phone_screen: {
+    label: "Phone Screen",
+    variant: "warning",
+    icon: <Phone className="h-3.5 w-3.5" />,
+  },
+  interview: {
+    label: "Interview",
+    variant: "warning",
+    icon: <MessageSquare className="h-3.5 w-3.5" />,
+  },
   offered: { label: "Offered", variant: "success", icon: <CheckCircle className="h-3.5 w-3.5" /> },
   rejected: { label: "Rejected", variant: "danger", icon: <XCircle className="h-3.5 w-3.5" /> },
   withdrawn: { label: "Withdrawn", variant: "default", icon: <XCircle className="h-3.5 w-3.5" /> },
@@ -67,7 +91,12 @@ function CandidateApplications() {
                     stage.count > 0 ? "bg-primary-50" : "bg-gray-50",
                   )}
                 >
-                  <span className={cn("text-xl font-bold", stage.count > 0 ? "text-primary-600" : "text-gray-400")}>
+                  <span
+                    className={cn(
+                      "text-xl font-bold",
+                      stage.count > 0 ? "text-primary-600" : "text-gray-400",
+                    )}
+                  >
                     {stage.count}
                   </span>
                   <span className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-gray-500">
@@ -102,7 +131,9 @@ function CandidateApplications() {
       </div>
 
       {isLoading ? (
-        <div className="mt-8 flex justify-center"><Spinner /></div>
+        <div className="mt-8 flex justify-center">
+          <Spinner />
+        </div>
       ) : applications.length === 0 ? (
         <div className="mt-8">
           <EmptyState

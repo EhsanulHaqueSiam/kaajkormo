@@ -21,7 +21,7 @@ export function matchScore(userSkills: string[], jobSkills: string[]): number {
 
 export function truncate(text: string, max: number): string {
   if (text.length <= max) return text;
-  return text.slice(0, max).trimEnd() + "...";
+  return `${text.slice(0, max).trimEnd()}...`;
 }
 
 export function formatDate(dateStr: string): string {
@@ -32,11 +32,7 @@ export function formatDate(dateStr: string): string {
   });
 }
 
-export function formatSalary(
-  min?: number,
-  max?: number,
-  currency = "BDT",
-): string {
+export function formatSalary(min?: number, max?: number, currency = "BDT"): string {
   const fmt = new Intl.NumberFormat("en-BD", { style: "currency", currency });
   if (min && max) return `${fmt.format(min)} - ${fmt.format(max)}`;
   if (min) return `From ${fmt.format(min)}`;
@@ -45,9 +41,7 @@ export function formatSalary(
 }
 
 export function timeAgo(dateStr: string): string {
-  const seconds = Math.floor(
-    (Date.now() - new Date(dateStr).getTime()) / 1000,
-  );
+  const seconds = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
   const intervals: [number, string][] = [
     [31536000, "year"],
     [2592000, "month"],

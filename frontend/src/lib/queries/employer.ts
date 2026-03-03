@@ -1,11 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { Application, Company, Job, PaginatedResponse } from "../../types";
 import { api } from "../api";
-import type {
-  Job,
-  Application,
-  Company,
-  PaginatedResponse,
-} from "../../types";
 
 export function useEmployerJobs() {
   return useQuery({
@@ -28,9 +23,7 @@ export function useJobApplicants(jobId: string) {
   return useQuery({
     queryKey: ["employer", "applicants", jobId],
     queryFn: () =>
-      api.get<PaginatedResponse<Application>>(
-        `/api/employer/jobs/${jobId}/applicants`,
-      ),
+      api.get<PaginatedResponse<Application>>(`/api/employer/jobs/${jobId}/applicants`),
     enabled: !!jobId,
   });
 }
@@ -58,8 +51,7 @@ export function useCompanyProfile() {
 export function useUpdateCompanyProfile() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: Partial<Company>) =>
-      api.put<Company>("/api/employer/company", data),
+    mutationFn: (data: Partial<Company>) => api.put<Company>("/api/employer/company", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["company-profile"] });
     },

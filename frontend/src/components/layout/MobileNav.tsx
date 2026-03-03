@@ -1,9 +1,20 @@
-import { useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { SignedIn, SignedOut, UserButton } from "../../lib/auth-components";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Compass, Briefcase, LayoutDashboard, User, FileText, Bookmark, Building, Users, Shield } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Bookmark,
+  Briefcase,
+  Building,
+  Compass,
+  FileText,
+  LayoutDashboard,
+  Shield,
+  User,
+  Users,
+  X,
+} from "lucide-react";
+import { useEffect } from "react";
 import { useAppUser } from "../../lib/auth";
+import { SignedIn, SignedOut, UserButton } from "../../lib/auth-components";
 import { Button } from "../ui/Button";
 
 interface MobileNavProps {
@@ -91,7 +102,11 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                         <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
                           Candidate
                         </p>
-                        <NavLink to="/candidate/dashboard" icon={<LayoutDashboard />} onClick={onClose}>
+                        <NavLink
+                          to="/candidate/dashboard"
+                          icon={<LayoutDashboard />}
+                          onClick={onClose}
+                        >
                           Dashboard
                         </NavLink>
                         <NavLink to="/candidate/discover" icon={<Compass />} onClick={onClose}>
@@ -115,13 +130,21 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                         <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
                           Employer
                         </p>
-                        <NavLink to="/employer/dashboard" icon={<LayoutDashboard />} onClick={onClose}>
+                        <NavLink
+                          to="/employer/dashboard"
+                          icon={<LayoutDashboard />}
+                          onClick={onClose}
+                        >
                           Dashboard
                         </NavLink>
                         <NavLink to="/employer/post-job" icon={<Briefcase />} onClick={onClose}>
                           Post Job
                         </NavLink>
-                        <NavLink to="/employer/company-profile" icon={<Building />} onClick={onClose}>
+                        <NavLink
+                          to="/employer/company-profile"
+                          icon={<Building />}
+                          onClick={onClose}
+                        >
                           Company Profile
                         </NavLink>
                       </>
@@ -154,7 +177,9 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
                   <div className="flex items-center gap-3">
                     <UserButton afterSignOutUrl="/" />
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium text-gray-900">{user?.full_name}</p>
+                      <p className="truncate text-sm font-medium text-gray-900">
+                        {user?.full_name}
+                      </p>
                       <p className="truncate text-xs text-gray-500">{user?.email}</p>
                     </div>
                   </div>

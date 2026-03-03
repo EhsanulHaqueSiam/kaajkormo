@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect, type ReactNode } from "react";
 import { motion } from "framer-motion";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/utils";
 
 interface Tab {
@@ -40,9 +40,7 @@ export function Tabs({ tabs, activeTab, onChange, variant = "underline", classNa
             onClick={() => onChange(tab.id)}
             className={cn(
               "relative flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-              tab.id === activeTab
-                ? "text-gray-900"
-                : "text-gray-600 hover:text-gray-900",
+              tab.id === activeTab ? "text-gray-900" : "text-gray-600 hover:text-gray-900",
             )}
           >
             {tab.id === activeTab && (
@@ -77,9 +75,7 @@ export function Tabs({ tabs, activeTab, onChange, variant = "underline", classNa
             onClick={() => onChange(tab.id)}
             className={cn(
               "flex items-center gap-1.5 whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-colors",
-              tab.id === activeTab
-                ? "text-primary-600"
-                : "text-gray-600 hover:text-gray-900",
+              tab.id === activeTab ? "text-primary-600" : "text-gray-600 hover:text-gray-900",
             )}
           >
             {tab.icon}

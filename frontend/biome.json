@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.5/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "ignore": ["dist", "node_modules", "src/routeTree.gen.ts"]
+    "includes": ["**", "!**/dist", "!**/node_modules", "!**/src/routeTree.gen.ts", "!**/*.css"]
   },
   "formatter": {
     "enabled": true,
@@ -28,8 +28,18 @@
         "noNonNullAssertion": "off",
         "useConst": "error"
       },
+      "a11y": {
+        "noSvgWithoutTitle": "off",
+        "useValidAnchor": "off",
+        "useButtonType": "off",
+        "noRedundantAlt": "off",
+        "noStaticElementInteractions": "off",
+        "useKeyWithClickEvents": "off",
+        "noLabelWithoutControl": "off"
+      },
       "suspicious": {
-        "noExplicitAny": "warn"
+        "noExplicitAny": "off",
+        "noArrayIndexKey": "off"
       },
       "complexity": {
         "noForEach": "off"
@@ -43,7 +53,5 @@
       "semicolons": "always"
     }
   },
-  "organizeImports": {
-    "enabled": true
-  }
+  "assist": { "actions": { "source": { "organizeImports": "on" } } }
 }

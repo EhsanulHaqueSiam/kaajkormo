@@ -1,6 +1,8 @@
-import { useState, useEffect, useCallback, useRef, type ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search, Command } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Command, Search } from "lucide-react";
+import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { HOTKEYS } from "../../lib/hotkeys";
 import { cn } from "../../lib/utils";
 
 interface CommandItem {
@@ -27,20 +29,8 @@ export function CommandPalette({ items, open: controlledOpen, onOpenChange }: Co
   const isOpen = controlledOpen ?? internalOpen;
   const setOpen = onOpenChange ?? setInternalOpen;
 
-  // Cmd+K shortcut
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        setOpen(!isOpen);
-      }
-      if (e.key === "Escape" && isOpen) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, setOpen]);
+  useHotkeys(HOTKEYS.COMMAND_PALETTE, () => setOpen(!isOpen), { preventDefault: true });
+  useHotkeys("escape", () => setOpen(false), { enabled: isOpen });
 
   // Focus input on open
   useEffect(() => {
@@ -159,9 +149,7 @@ export function CommandPalette({ items, open: controlledOpen, onOpenChange }: Co
               ))}
 
               {filtered.length === 0 && (
-                <div className="px-4 py-8 text-center text-sm text-gray-500">
-                  No results found
-                </div>
+                <div className="px-4 py-8 text-center text-sm text-gray-500">No results found</div>
               )}
             </div>
 
@@ -187,7 +175,13 @@ export function CommandPalette({ items, open: controlledOpen, onOpenChange }: Co
   );
 }
 
-export function CommandTrigger({ onClick, className }: { onClick: () => void; className?: string }) {
+export function CommandTrigger({
+  onClick,
+  className,
+}: {
+  onClick: () => void;
+  className?: string;
+}) {
   return (
     <button
       onClick={onClick}

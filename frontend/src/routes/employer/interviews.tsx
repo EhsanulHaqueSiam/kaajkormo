@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Calendar, Clock, Video, Phone, MapPin, Users, Pencil } from "lucide-react";
-import { Card } from "../../components/ui/Card";
+import { Calendar, Clock, MapPin, Pencil, Phone, Users, Video } from "lucide-react";
+import { useState } from "react";
 import { Badge } from "../../components/ui/Badge";
 import { Button } from "../../components/ui/Button";
-import { Spinner } from "../../components/ui/Spinner";
+import { Card } from "../../components/ui/Card";
 import { EmptyState } from "../../components/ui/EmptyState";
+import { Spinner } from "../../components/ui/Spinner";
 import { Tabs } from "../../components/ui/Tabs";
 import { useInterviews } from "../../lib/queries/interviews";
 import { formatDate } from "../../lib/utils";
@@ -79,7 +79,9 @@ function InterviewsPage() {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                  <p className="font-medium text-gray-900 capitalize">{interview.interview_type.replace("_", " ")} Interview</p>
+                  <p className="font-medium text-gray-900 capitalize">
+                    {interview.interview_type.replace("_", " ")} Interview
+                  </p>
                   <Badge variant={statusVariant[interview.status] ?? "default"}>
                     {interview.status}
                   </Badge>

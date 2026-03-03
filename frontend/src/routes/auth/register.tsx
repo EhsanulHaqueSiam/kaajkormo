@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { SignUp } from "@clerk/clerk-react";
-import { Briefcase, Sparkles, Compass, BarChart3 } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { BarChart3, Briefcase, Compass, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/auth/register")({
   component: RegisterPage,
@@ -24,7 +24,8 @@ function RegisterPage() {
           </div>
           <h2 className="text-3xl font-bold">Join KaajKormo</h2>
           <p className="mt-3 text-lg text-white/80">
-            Create your account and start discovering amazing career opportunities across Bangladesh.
+            Create your account and start discovering amazing career opportunities across
+            Bangladesh.
           </p>
           <div className="mt-8 space-y-4">
             {benefits.map((b) => (

@@ -1,21 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import {
-  Briefcase,
-  Eye,
-  Users,
-  TrendingUp,
-  Plus,
-  ArrowRight,
-  Building,
-} from "lucide-react";
-import { Card } from "../../components/ui/Card";
+import { ArrowRight, Briefcase, Building, Eye, Plus, TrendingUp, Users } from "lucide-react";
 import { Badge } from "../../components/ui/Badge";
 import { Button } from "../../components/ui/Button";
+import { Card } from "../../components/ui/Card";
 import { Spinner } from "../../components/ui/Spinner";
 import { StatsCard } from "../../components/ui/StatsCard";
-import { useEmployerJobs } from "../../lib/queries/employer";
 import { useAppUser } from "../../lib/auth";
+import { useEmployerJobs } from "../../lib/queries/employer";
 import { timeAgo } from "../../lib/utils";
 
 export const Route = createFileRoute("/employer/dashboard")({
@@ -48,16 +40,35 @@ function EmployerDashboard() {
           </p>
         </div>
         <Link to="/employer/post-job">
-          <Button variant="gradient" icon={<Plus className="h-4 w-4" />}>Post New Job</Button>
+          <Button variant="gradient" icon={<Plus className="h-4 w-4" />}>
+            Post New Job
+          </Button>
         </Link>
       </div>
 
       {/* Stats */}
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        <StatsCard icon={<Briefcase className="h-5 w-5" />} label="Total Jobs" value={isLoading ? 0 : jobs.length} />
-        <StatsCard icon={<Eye className="h-5 w-5" />} label="Published" value={isLoading ? 0 : publishedCount} trend={{ value: 12, isPositive: true }} />
-        <StatsCard icon={<Users className="h-5 w-5" />} label="Drafts" value={isLoading ? 0 : draftCount} />
-        <StatsCard icon={<TrendingUp className="h-5 w-5" />} label="Closed" value={isLoading ? 0 : closedCount} />
+        <StatsCard
+          icon={<Briefcase className="h-5 w-5" />}
+          label="Total Jobs"
+          value={isLoading ? 0 : jobs.length}
+        />
+        <StatsCard
+          icon={<Eye className="h-5 w-5" />}
+          label="Published"
+          value={isLoading ? 0 : publishedCount}
+          trend={{ value: 12, isPositive: true }}
+        />
+        <StatsCard
+          icon={<Users className="h-5 w-5" />}
+          label="Drafts"
+          value={isLoading ? 0 : draftCount}
+        />
+        <StatsCard
+          icon={<TrendingUp className="h-5 w-5" />}
+          label="Closed"
+          value={isLoading ? 0 : closedCount}
+        />
       </div>
 
       {/* Quick actions */}
@@ -100,7 +111,9 @@ function EmployerDashboard() {
           <h2 className="text-lg font-semibold text-gray-900">Your Job Listings</h2>
         </div>
         {isLoading ? (
-          <div className="flex justify-center py-8"><Spinner /></div>
+          <div className="flex justify-center py-8">
+            <Spinner />
+          </div>
         ) : jobs.length === 0 ? (
           <Card className="text-center">
             <Briefcase className="mx-auto h-8 w-8 text-gray-300" />
@@ -122,9 +135,7 @@ function EmployerDashboard() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <p className="font-medium text-gray-900 truncate">{job.title}</p>
-                      <Badge variant={statusVariant[job.status] ?? "default"}>
-                        {job.status}
-                      </Badge>
+                      <Badge variant={statusVariant[job.status] ?? "default"}>{job.status}</Badge>
                     </div>
                     <p className="mt-1 text-sm text-gray-500">
                       Posted {timeAgo(job.created_at)}
@@ -133,7 +144,11 @@ function EmployerDashboard() {
                   </div>
                   <div className="mt-2 flex gap-2 sm:mt-0">
                     <Link to="/employer/applicants/$jobId" params={{ jobId: job.id }}>
-                      <Button variant="outline" size="sm" iconRight={<ArrowRight className="h-3.5 w-3.5" />}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        iconRight={<ArrowRight className="h-3.5 w-3.5" />}
+                      >
                         Applicants
                       </Button>
                     </Link>

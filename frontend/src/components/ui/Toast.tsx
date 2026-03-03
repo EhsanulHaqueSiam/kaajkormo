@@ -1,5 +1,5 @@
+import { AlertTriangle, CheckCircle, Info, X, XCircle } from "lucide-react";
 import toast, { Toaster as HotToaster } from "react-hot-toast";
-import { CheckCircle, XCircle, AlertTriangle, Info, X } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 export function Toaster() {

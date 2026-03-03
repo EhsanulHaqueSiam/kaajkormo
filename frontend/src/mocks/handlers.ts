@@ -4,13 +4,13 @@
  */
 
 import {
-  mockJobs,
+  mockApplicationEvents,
   mockApplications,
   mockCandidateProfile,
-  mockNotifications,
-  mockInterviews,
-  mockApplicationEvents,
   mockCompanies,
+  mockInterviews,
+  mockJobs,
+  mockNotifications,
 } from "./data";
 
 type MockHandler = {
@@ -63,11 +63,14 @@ const handlers: MockHandler[] = [
 
   // ─── Candidate Profile ──────────────────────────────────────────
   {
-    match: (m, u) => m === "GET" && (u.includes("/api/profile") || u.includes("/api/candidate/profile")),
+    match: (m, u) =>
+      m === "GET" && (u.includes("/api/profile") || u.includes("/api/candidate/profile")),
     handle: () => ({ status: 200, data: mockCandidateProfile }),
   },
   {
-    match: (m, u) => (m === "PUT" || m === "PATCH") && (u.includes("/api/profile") || u.includes("/api/candidate/profile")),
+    match: (m, u) =>
+      (m === "PUT" || m === "PATCH") &&
+      (u.includes("/api/profile") || u.includes("/api/candidate/profile")),
     handle: (_u, body) => ({ status: 200, data: { ...mockCandidateProfile, ...(body as object) } }),
   },
 
@@ -80,7 +83,13 @@ const handlers: MockHandler[] = [
     match: (m, u) => m === "GET" && u.includes("/api/applications"),
     handle: () => ({
       status: 200,
-      data: { data: mockApplications, total: mockApplications.length, page: 1, per_page: 20, total_pages: 1 },
+      data: {
+        data: mockApplications,
+        total: mockApplications.length,
+        page: 1,
+        per_page: 20,
+        total_pages: 1,
+      },
     }),
   },
   {
@@ -122,11 +131,41 @@ const handlers: MockHandler[] = [
       status: 200,
       data: {
         data: [
-          { id: "ja1", user_id: "u1", name: "React Jobs in Dhaka", criteria: { skills: ["React"], location: "Dhaka" }, frequency: "daily", is_active: true, created_at: "2026-01-01T00:00:00Z", updated_at: "2026-03-01T00:00:00Z" },
-          { id: "ja2", user_id: "u1", name: "Remote Rust Positions", criteria: { skills: ["Rust"], is_remote: true }, frequency: "weekly", is_active: true, created_at: "2026-02-01T00:00:00Z", updated_at: "2026-02-15T00:00:00Z" },
-          { id: "ja3", user_id: "u1", name: "Startup Design Roles", criteria: { skills: ["Figma", "UI/UX"], location: "Dhaka" }, frequency: "instant", is_active: false, created_at: "2026-02-10T00:00:00Z", updated_at: "2026-02-20T00:00:00Z" },
+          {
+            id: "ja1",
+            user_id: "u1",
+            name: "React Jobs in Dhaka",
+            criteria: { skills: ["React"], location: "Dhaka" },
+            frequency: "daily",
+            is_active: true,
+            created_at: "2026-01-01T00:00:00Z",
+            updated_at: "2026-03-01T00:00:00Z",
+          },
+          {
+            id: "ja2",
+            user_id: "u1",
+            name: "Remote Rust Positions",
+            criteria: { skills: ["Rust"], is_remote: true },
+            frequency: "weekly",
+            is_active: true,
+            created_at: "2026-02-01T00:00:00Z",
+            updated_at: "2026-02-15T00:00:00Z",
+          },
+          {
+            id: "ja3",
+            user_id: "u1",
+            name: "Startup Design Roles",
+            criteria: { skills: ["Figma", "UI/UX"], location: "Dhaka" },
+            frequency: "instant",
+            is_active: false,
+            created_at: "2026-02-10T00:00:00Z",
+            updated_at: "2026-02-20T00:00:00Z",
+          },
         ],
-        total: 3, page: 1, per_page: 20, total_pages: 1,
+        total: 3,
+        page: 1,
+        per_page: 20,
+        total_pages: 1,
       },
     }),
   },
@@ -140,20 +179,35 @@ const handlers: MockHandler[] = [
     match: (m, u) => m === "GET" && u.includes("/api/interviews"),
     handle: () => ({
       status: 200,
-      data: { data: mockInterviews, total: mockInterviews.length, page: 1, per_page: 20, total_pages: 1 },
+      data: {
+        data: mockInterviews,
+        total: mockInterviews.length,
+        page: 1,
+        per_page: 20,
+        total_pages: 1,
+      },
     }),
   },
 
   // ─── Notifications ──────────────────────────────────────────────
   {
     match: (m, u) => m === "GET" && u.includes("/api/notifications/unread-count"),
-    handle: () => ({ status: 200, data: { count: mockNotifications.filter((n) => !n.is_read).length } }),
+    handle: () => ({
+      status: 200,
+      data: { count: mockNotifications.filter((n) => !n.is_read).length },
+    }),
   },
   {
     match: (m, u) => m === "GET" && u.includes("/api/notifications"),
     handle: () => ({
       status: 200,
-      data: { data: mockNotifications, total: mockNotifications.length, page: 1, per_page: 20, total_pages: 1 },
+      data: {
+        data: mockNotifications,
+        total: mockNotifications.length,
+        page: 1,
+        per_page: 20,
+        total_pages: 1,
+      },
     }),
   },
   {
@@ -174,11 +228,13 @@ const handlers: MockHandler[] = [
     }),
   },
   {
-    match: (m, u) => m === "GET" && (u.includes("/api/employer/company") || u.includes("/api/company")),
+    match: (m, u) =>
+      m === "GET" && (u.includes("/api/employer/company") || u.includes("/api/company")),
     handle: () => ({ status: 200, data: mockCompanies[0] }),
   },
   {
-    match: (m, u) => m === "PUT" && (u.includes("/api/employer/company") || u.includes("/api/company")),
+    match: (m, u) =>
+      m === "PUT" && (u.includes("/api/employer/company") || u.includes("/api/company")),
     handle: (_u, body) => ({ status: 200, data: { ...mockCompanies[0], ...(body as object) } }),
   },
   {
@@ -187,11 +243,51 @@ const handlers: MockHandler[] = [
       status: 200,
       data: {
         data: [
-          { id: "u1", full_name: "Arif Rahman", email: "arif@example.com", role: "candidate", avatar_url: "https://ui-avatars.com/api/?name=AR&background=2563eb&color=fff", profile: mockCandidateProfile },
-          { id: "u8", full_name: "Fatima Akter", email: "fatima@example.com", role: "candidate", avatar_url: "https://ui-avatars.com/api/?name=FA&background=7c3aed&color=fff", profile: { ...mockCandidateProfile, id: "cp2", user_id: "u8", headline: "UI/UX Designer | Figma Expert", skills: ["Figma", "UI/UX", "Adobe XD", "Prototyping"], experience_years: 3, education: "BFA in Design, DU" } },
-          { id: "u9", full_name: "Kamal Hossain", email: "kamal@example.com", role: "candidate", avatar_url: "https://ui-avatars.com/api/?name=KH&background=059669&color=fff", profile: { ...mockCandidateProfile, id: "cp3", user_id: "u9", headline: "DevOps Engineer | AWS Certified", skills: ["AWS", "Docker", "Kubernetes", "Terraform"], experience_years: 5, education: "BSc in IT, KUET" } },
+          {
+            id: "u1",
+            full_name: "Arif Rahman",
+            email: "arif@example.com",
+            role: "candidate",
+            avatar_url: "https://ui-avatars.com/api/?name=AR&background=2563eb&color=fff",
+            profile: mockCandidateProfile,
+          },
+          {
+            id: "u8",
+            full_name: "Fatima Akter",
+            email: "fatima@example.com",
+            role: "candidate",
+            avatar_url: "https://ui-avatars.com/api/?name=FA&background=7c3aed&color=fff",
+            profile: {
+              ...mockCandidateProfile,
+              id: "cp2",
+              user_id: "u8",
+              headline: "UI/UX Designer | Figma Expert",
+              skills: ["Figma", "UI/UX", "Adobe XD", "Prototyping"],
+              experience_years: 3,
+              education: "BFA in Design, DU",
+            },
+          },
+          {
+            id: "u9",
+            full_name: "Kamal Hossain",
+            email: "kamal@example.com",
+            role: "candidate",
+            avatar_url: "https://ui-avatars.com/api/?name=KH&background=059669&color=fff",
+            profile: {
+              ...mockCandidateProfile,
+              id: "cp3",
+              user_id: "u9",
+              headline: "DevOps Engineer | AWS Certified",
+              skills: ["AWS", "Docker", "Kubernetes", "Terraform"],
+              experience_years: 5,
+              education: "BSc in IT, KUET",
+            },
+          },
         ],
-        total: 3, page: 1, per_page: 20, total_pages: 1,
+        total: 3,
+        page: 1,
+        per_page: 20,
+        total_pages: 1,
       },
     }),
   },
@@ -201,7 +297,14 @@ const handlers: MockHandler[] = [
     match: (m, u) => m === "GET" && u.includes("/api/admin/stats"),
     handle: () => ({
       status: 200,
-      data: { total_users: 1250, total_jobs: 486, total_applications: 3847, total_companies: 189, active_users_30d: 876, new_users_7d: 42 },
+      data: {
+        total_users: 1250,
+        total_jobs: 486,
+        total_applications: 3847,
+        total_companies: 189,
+        active_users_30d: 876,
+        new_users_7d: 42,
+      },
     }),
   },
   {
@@ -217,13 +320,51 @@ const handlers: MockHandler[] = [
       status: 200,
       data: {
         data: [
-          { id: "u1", email: "arif@example.com", full_name: "Arif Rahman", role: "candidate", is_active: true, created_at: "2025-06-01T00:00:00Z" },
-          { id: "u2", email: "hr@grameenphone.com", full_name: "Nadia Sultana", role: "employer", is_active: true, created_at: "2025-05-01T00:00:00Z" },
-          { id: "u8", email: "fatima@example.com", full_name: "Fatima Akter", role: "candidate", is_active: true, created_at: "2025-08-15T00:00:00Z" },
-          { id: "u9", email: "kamal@example.com", full_name: "Kamal Hossain", role: "candidate", is_active: false, created_at: "2025-09-01T00:00:00Z" },
-          { id: "u10", email: "admin@kaajkormo.com", full_name: "Admin User", role: "admin", is_active: true, created_at: "2024-01-01T00:00:00Z" },
+          {
+            id: "u1",
+            email: "arif@example.com",
+            full_name: "Arif Rahman",
+            role: "candidate",
+            is_active: true,
+            created_at: "2025-06-01T00:00:00Z",
+          },
+          {
+            id: "u2",
+            email: "hr@grameenphone.com",
+            full_name: "Nadia Sultana",
+            role: "employer",
+            is_active: true,
+            created_at: "2025-05-01T00:00:00Z",
+          },
+          {
+            id: "u8",
+            email: "fatima@example.com",
+            full_name: "Fatima Akter",
+            role: "candidate",
+            is_active: true,
+            created_at: "2025-08-15T00:00:00Z",
+          },
+          {
+            id: "u9",
+            email: "kamal@example.com",
+            full_name: "Kamal Hossain",
+            role: "candidate",
+            is_active: false,
+            created_at: "2025-09-01T00:00:00Z",
+          },
+          {
+            id: "u10",
+            email: "admin@kaajkormo.com",
+            full_name: "Admin User",
+            role: "admin",
+            is_active: true,
+            created_at: "2024-01-01T00:00:00Z",
+          },
         ],
-        total: 5, page: 1, per_page: 20, total_pages: 1,
+        total: 5,
+        page: 1,
+        per_page: 20,
+        total_pages: 1,
       },
     }),
   },

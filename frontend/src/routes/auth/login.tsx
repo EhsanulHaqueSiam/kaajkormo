@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { SignIn } from "@clerk/clerk-react";
-import { Briefcase, Users, TrendingUp, Shield } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { Briefcase, Shield, TrendingUp, Users } from "lucide-react";
 
 export const Route = createFileRoute("/auth/login")({
   component: LoginPage,

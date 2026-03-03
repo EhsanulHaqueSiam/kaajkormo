@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, type LucideIcon } from "lucide-react";
+import { useState } from "react";
 import { cn } from "../../lib/utils";
 
 interface SidebarItem {
@@ -37,7 +37,8 @@ export function DashboardLayout({ children, sidebarItems, title }: DashboardLayo
             )}
             <nav className="p-2">
               {sidebarItems.map((item) => {
-                const isActive = location.pathname === item.to || location.pathname.startsWith(item.to + "/");
+                const isActive =
+                  location.pathname === item.to || location.pathname.startsWith(`${item.to}/`);
                 return (
                   <Link
                     key={item.to}
@@ -91,7 +92,8 @@ export function DashboardLayout({ children, sidebarItems, title }: DashboardLayo
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-gray-200 bg-white/90 backdrop-blur-md lg:hidden">
         <nav className="mx-auto flex max-w-lg items-center justify-around px-2 py-1.5">
           {sidebarItems.slice(0, 5).map((item) => {
-            const isActive = location.pathname === item.to || location.pathname.startsWith(item.to + "/");
+            const isActive =
+              location.pathname === item.to || location.pathname.startsWith(`${item.to}/`);
             return (
               <Link
                 key={item.to}

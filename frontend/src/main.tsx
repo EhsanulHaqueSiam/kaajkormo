@@ -1,11 +1,12 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { ClerkProvider } from "@clerk/clerk-react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { ClerkProvider } from "@clerk/clerk-react";
-import { routeTree } from "./routeTree.gen";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import { ClerkTokenSync } from "./components/ClerkTokenSync";
+import { initPostHog } from "./lib/posthog";
+import { routeTree } from "./routeTree.gen";
 import "./index.css";
 
 const IS_MOCK = import.meta.env.VITE_MOCK_API === "true";
@@ -14,6 +15,8 @@ const IS_MOCK = import.meta.env.VITE_MOCK_API === "true";
 if (IS_MOCK) {
   import("./mocks/handlers").then(({ installMockApi }) => installMockApi());
 }
+
+initPostHog();
 
 const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 

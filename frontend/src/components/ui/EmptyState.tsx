@@ -1,5 +1,5 @@
+import { FileX, FolderOpen, Inbox, Search } from "lucide-react";
 import type { ReactNode } from "react";
-import { FileX, Search, Inbox, FolderOpen } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "./Button";
 
@@ -38,9 +38,7 @@ export function EmptyState({
     <div className={cn("flex flex-col items-center justify-center py-12 text-center", className)}>
       <div className="mb-4 text-gray-300">{displayIcon}</div>
       <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-      {description && (
-        <p className="mt-1 max-w-sm text-sm text-gray-500">{description}</p>
-      )}
+      {description && <p className="mt-1 max-w-sm text-sm text-gray-500">{description}</p>}
       {action && (
         <Button onClick={action.onClick} size="sm" className="mt-4">
           {action.label}

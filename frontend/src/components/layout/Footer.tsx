@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Github, Linkedin, Twitter, Mail, ArrowRight } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/Button";
 
@@ -21,8 +21,8 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-gray-500">
-              Bangladesh's premier job portal connecting talent with opportunity.
-              Find your dream career or hire the best candidates.
+              Bangladesh's premier job portal connecting talent with opportunity. Find your dream
+              career or hire the best candidates.
             </p>
 
             {/* Newsletter */}
@@ -50,22 +50,34 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-gray-900">For Job Seekers</h4>
             <ul className="mt-3 space-y-2.5">
               <li>
-                <Link to="/jobs" className="text-sm text-gray-500 transition-colors hover:text-primary-600">
+                <Link
+                  to="/jobs"
+                  className="text-sm text-gray-500 transition-colors hover:text-primary-600"
+                >
                   Browse Jobs
                 </Link>
               </li>
               <li>
-                <Link to="/candidate/discover" className="text-sm text-gray-500 transition-colors hover:text-primary-600">
+                <Link
+                  to="/candidate/discover"
+                  className="text-sm text-gray-500 transition-colors hover:text-primary-600"
+                >
                   Discover Jobs
                 </Link>
               </li>
               <li>
-                <Link to="/auth/register" className="text-sm text-gray-500 transition-colors hover:text-primary-600">
+                <Link
+                  to="/auth/register"
+                  className="text-sm text-gray-500 transition-colors hover:text-primary-600"
+                >
                   Create Account
                 </Link>
               </li>
               <li>
-                <Link to="/candidate/alerts" className="text-sm text-gray-500 transition-colors hover:text-primary-600">
+                <Link
+                  to="/candidate/alerts"
+                  className="text-sm text-gray-500 transition-colors hover:text-primary-600"
+                >
                   Job Alerts
                 </Link>
               </li>
@@ -77,17 +89,26 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-gray-900">For Employers</h4>
             <ul className="mt-3 space-y-2.5">
               <li>
-                <Link to="/employer/post-job" className="text-sm text-gray-500 transition-colors hover:text-primary-600">
+                <Link
+                  to="/employer/post-job"
+                  className="text-sm text-gray-500 transition-colors hover:text-primary-600"
+                >
                   Post a Job
                 </Link>
               </li>
               <li>
-                <Link to="/auth/register" className="text-sm text-gray-500 transition-colors hover:text-primary-600">
+                <Link
+                  to="/auth/register"
+                  className="text-sm text-gray-500 transition-colors hover:text-primary-600"
+                >
                   Employer Sign Up
                 </Link>
               </li>
               <li>
-                <Link to="/employer/candidates" className="text-sm text-gray-500 transition-colors hover:text-primary-600">
+                <Link
+                  to="/employer/candidates"
+                  className="text-sm text-gray-500 transition-colors hover:text-primary-600"
+                >
                   Browse Candidates
                 </Link>
               </li>
@@ -99,7 +120,10 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-gray-900">Support</h4>
             <ul className="mt-3 space-y-2.5">
               <li>
-                <a href="mailto:help@kaajkormo.com" className="flex items-center gap-1.5 text-sm text-gray-500 transition-colors hover:text-primary-600">
+                <a
+                  href="mailto:help@kaajkormo.com"
+                  className="flex items-center gap-1.5 text-sm text-gray-500 transition-colors hover:text-primary-600"
+                >
                   <Mail className="h-3.5 w-3.5" />
                   help@kaajkormo.com
                 </a>
@@ -114,13 +138,22 @@ export function Footer() {
             &copy; {new Date().getFullYear()} KaajKormo. All rights reserved.
           </p>
           <div className="flex items-center gap-3">
-            <a href="#" className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600">
+            <a
+              href="#"
+              className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+            >
               <Twitter className="h-4 w-4" />
             </a>
-            <a href="#" className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600">
+            <a
+              href="#"
+              className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+            >
               <Linkedin className="h-4 w-4" />
             </a>
-            <a href="#" className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600">
+            <a
+              href="#"
+              className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+            >
               <Github className="h-4 w-4" />
             </a>
           </div>

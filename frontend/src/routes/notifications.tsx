@@ -1,13 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Bell, Check, CheckCheck } from "lucide-react";
-import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
-import { Spinner } from "../components/ui/Spinner";
+import { Card } from "../components/ui/Card";
 import { EmptyState } from "../components/ui/EmptyState";
-import { useNotifications, useMarkNotificationRead, useMarkAllNotificationsRead } from "../lib/queries/notifications";
-import { timeAgo } from "../lib/utils";
-import { cn } from "../lib/utils";
+import { Spinner } from "../components/ui/Spinner";
+import {
+  useMarkAllNotificationsRead,
+  useMarkNotificationRead,
+  useNotifications,
+} from "../lib/queries/notifications";
+import { cn, timeAgo } from "../lib/utils";
 
 export const Route = createFileRoute("/notifications")({
   component: NotificationsPage,
@@ -80,12 +83,15 @@ function NotificationsPage() {
                   )}
                 />
                 <div className="min-w-0 flex-1">
-                  <p className={cn("text-sm", n.is_read ? "text-gray-700" : "font-medium text-gray-900")}>
+                  <p
+                    className={cn(
+                      "text-sm",
+                      n.is_read ? "text-gray-700" : "font-medium text-gray-900",
+                    )}
+                  >
                     {n.title}
                   </p>
-                  {n.body && (
-                    <p className="mt-0.5 text-sm text-gray-500">{n.body}</p>
-                  )}
+                  {n.body && <p className="mt-0.5 text-sm text-gray-500">{n.body}</p>}
                   <p className="mt-1 text-xs text-gray-400">{timeAgo(n.created_at)}</p>
                 </div>
                 {!n.is_read && (

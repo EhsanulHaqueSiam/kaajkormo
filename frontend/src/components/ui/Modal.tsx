@@ -1,6 +1,7 @@
-import { useEffect, type ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
+import { type ReactNode, useEffect } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { cn } from "../../lib/utils";
 
 type ModalSize = "sm" | "md" | "lg" | "xl" | "full";
@@ -22,26 +23,16 @@ const sizeStyles: Record<ModalSize, string> = {
   full: "max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)]",
 };
 
-export function Modal({
-  open,
-  onClose,
-  title,
-  children,
-  className,
-  size = "md",
-}: ModalProps) {
+export function Modal({ open, onClose, title, children, className, size = "md" }: ModalProps) {
+  useHotkeys("escape", () => onClose(), { enabled: open });
+
   useEffect(() => {
     if (!open) return;
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleEsc);
     document.body.style.overflow = "hidden";
     return () => {
-      document.removeEventListener("keydown", handleEsc);
       document.body.style.overflow = "";
     };
-  }, [open, onClose]);
+  }, [open]);
 
   return (
     <AnimatePresence>

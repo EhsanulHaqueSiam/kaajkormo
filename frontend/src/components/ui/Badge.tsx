@@ -56,9 +56,7 @@ export function Badge({
               )}
             />
           )}
-          <span
-            className={cn("relative inline-flex h-2 w-2 rounded-full", dotColors[variant])}
-          />
+          <span className={cn("relative inline-flex h-2 w-2 rounded-full", dotColors[variant])} />
         </span>
       )}
       {icon && <span className="shrink-0 [&>svg]:h-3 [&>svg]:w-3">{icon}</span>}

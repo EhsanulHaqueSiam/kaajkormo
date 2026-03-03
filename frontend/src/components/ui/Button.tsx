@@ -1,6 +1,6 @@
-import { type ButtonHTMLAttributes, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "../../lib/utils";
 
 type ButtonVariant =
@@ -22,19 +22,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary:
-    "bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 shadow-sm",
-  secondary:
-    "bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500",
-  outline:
-    "border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-primary-500",
+  primary: "bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 shadow-sm",
+  secondary: "bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500",
+  outline: "border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-primary-500",
   ghost: "text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
-  danger:
-    "bg-danger-600 text-white hover:bg-danger-700 focus:ring-danger-500 shadow-sm",
-  gradient:
-    "gradient-primary text-white shadow-md hover:shadow-lg focus:ring-primary-500",
-  glass:
-    "glass text-gray-800 hover:bg-white/80 focus:ring-primary-500",
+  danger: "bg-danger-600 text-white hover:bg-danger-700 focus:ring-danger-500 shadow-sm",
+  gradient: "gradient-primary text-white shadow-md hover:shadow-lg focus:ring-primary-500",
+  glass: "glass text-gray-800 hover:bg-white/80 focus:ring-primary-500",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -73,9 +67,7 @@ export function Button({
         <span className="shrink-0">{icon}</span>
       ) : null}
       {children}
-      {iconRight && !loading && (
-        <span className="shrink-0">{iconRight}</span>
-      )}
+      {iconRight && !loading && <span className="shrink-0">{iconRight}</span>}
     </motion.button>
   );
 }

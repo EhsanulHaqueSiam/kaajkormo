@@ -1,6 +1,6 @@
+import { Camera } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Camera } from "lucide-react";
 import { cn, getInitials } from "../../lib/utils";
 
 interface PhotoUploadProps {

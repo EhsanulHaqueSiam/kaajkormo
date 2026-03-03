@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { JobAlert, PaginatedResponse } from "../../types";
+import { api } from "../api";
 
 export function useJobAlerts() {
   return useQuery({
@@ -12,8 +12,7 @@ export function useJobAlerts() {
 export function useCreateJobAlert() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: Partial<JobAlert>) =>
-      api.post<JobAlert>("/api/job-alerts", data),
+    mutationFn: (data: Partial<JobAlert>) => api.post<JobAlert>("/api/job-alerts", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["job-alerts"] });
     },

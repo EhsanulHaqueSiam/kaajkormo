@@ -54,6 +54,9 @@ jobs:
         with:
           workspaces: backend
 
+      - name: Ensure rustfmt is available
+        run: rustup component add rustfmt
+
       - name: Format check
         run: cargo fmt --check
 

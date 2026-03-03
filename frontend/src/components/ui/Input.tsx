@@ -1,5 +1,5 @@
-import { forwardRef, useState, type InputHTMLAttributes, type ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { forwardRef, type InputHTMLAttributes, type ReactNode, useState } from "react";
 import { cn } from "../../lib/utils";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -10,7 +10,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, leadingIcon, trailingIcon, className, id, value, defaultValue, ...props }, ref) => {
+  (
+    { label, error, leadingIcon, trailingIcon, className, id, value, defaultValue, ...props },
+    ref,
+  ) => {
     const [focused, setFocused] = useState(false);
     const hasValue = value !== undefined ? Boolean(value) : Boolean(defaultValue);
     const isFloating = focused || hasValue;

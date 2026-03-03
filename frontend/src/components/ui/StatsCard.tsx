@@ -1,5 +1,5 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingDown, TrendingUp } from "lucide-react";
+import { type ReactNode, useEffect, useState } from "react";
 import { cn } from "../../lib/utils";
 
 interface StatsCardProps {
@@ -19,11 +19,14 @@ function useAnimatedCounter(target: number, duration = 800) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (target === 0) { setCount(0); return; }
+    if (target === 0) {
+      setCount(0);
+      return;
+    }
     const start = performance.now();
     const step = (now: number) => {
       const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      const eased = 1 - (1 - progress) ** 3; // ease-out cubic
       setCount(Math.round(eased * target));
       if (progress < 1) requestAnimationFrame(step);
     };
@@ -77,7 +80,9 @@ export function StatsCard({
       </div>
       <div className="mt-3">
         <p className="text-2xl font-bold text-gray-900">
-          {prefix}{animatedValue.toLocaleString()}{suffix}
+          {prefix}
+          {animatedValue.toLocaleString()}
+          {suffix}
         </p>
         <p className="mt-0.5 text-sm text-gray-500">{label}</p>
       </div>

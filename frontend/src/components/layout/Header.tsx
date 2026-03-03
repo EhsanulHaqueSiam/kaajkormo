@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { SignedIn, SignedOut, UserButton } from "../../lib/auth-components";
-import { Menu, Compass } from "lucide-react";
+import { Compass, Menu } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useAppUser } from "../../lib/auth";
-import { Button } from "../ui/Button";
-import { CommandTrigger, CommandPalette } from "../ui/CommandPalette";
-import { MobileNav } from "./MobileNav";
+import { SignedIn, SignedOut, UserButton } from "../../lib/auth-components";
 import { cn } from "../../lib/utils";
+import { Button } from "../ui/Button";
+import { CommandPalette, CommandTrigger } from "../ui/CommandPalette";
+import { MobileNav } from "./MobileNav";
 
 export function Header() {
   const { user } = useAppUser();
@@ -22,20 +22,57 @@ export function Header() {
   }, []);
 
   const commandItems = [
-    { id: "jobs", label: "Browse Jobs", group: "Navigation", onSelect: () => navigate({ to: "/jobs" }), keywords: ["find", "search"] },
+    {
+      id: "jobs",
+      label: "Browse Jobs",
+      group: "Navigation",
+      onSelect: () => navigate({ to: "/jobs" }),
+      keywords: ["find", "search"],
+    },
     { id: "home", label: "Home", group: "Navigation", onSelect: () => navigate({ to: "/" }) },
     ...(user?.role === "candidate"
       ? [
-          { id: "dashboard", label: "Dashboard", group: "Navigation", onSelect: () => navigate({ to: "/candidate/dashboard" }) },
-          { id: "profile", label: "Edit Profile", group: "Navigation", onSelect: () => navigate({ to: "/candidate/profile" }) },
-          { id: "discover", label: "Discover Jobs", group: "Navigation", onSelect: () => navigate({ to: "/candidate/discover" }), keywords: ["swipe"] },
-          { id: "applications", label: "Applications", group: "Navigation", onSelect: () => navigate({ to: "/candidate/applications" }) },
+          {
+            id: "dashboard",
+            label: "Dashboard",
+            group: "Navigation",
+            onSelect: () => navigate({ to: "/candidate/dashboard" }),
+          },
+          {
+            id: "profile",
+            label: "Edit Profile",
+            group: "Navigation",
+            onSelect: () => navigate({ to: "/candidate/profile" }),
+          },
+          {
+            id: "discover",
+            label: "Discover Jobs",
+            group: "Navigation",
+            onSelect: () => navigate({ to: "/candidate/discover" }),
+            keywords: ["swipe"],
+          },
+          {
+            id: "applications",
+            label: "Applications",
+            group: "Navigation",
+            onSelect: () => navigate({ to: "/candidate/applications" }),
+          },
         ]
       : []),
     ...(user?.role === "employer"
       ? [
-          { id: "emp-dashboard", label: "Dashboard", group: "Navigation", onSelect: () => navigate({ to: "/employer/dashboard" }) },
-          { id: "post-job", label: "Post a Job", group: "Navigation", onSelect: () => navigate({ to: "/employer/post-job" }) },
+          {
+            id: "emp-dashboard",
+            label: "Dashboard",
+            group: "Navigation",
+            onSelect: () => navigate({ to: "/employer/dashboard" }),
+          },
+          {
+            id: "post-job",
+            label: "Post a Job",
+            group: "Navigation",
+            onSelect: () => navigate({ to: "/employer/post-job" }),
+          },
         ]
       : []),
   ];
@@ -45,9 +82,7 @@ export function Header() {
       <header
         className={cn(
           "sticky top-0 z-40 transition-all duration-300",
-          scrolled
-            ? "glass-strong shadow-sm"
-            : "border-b border-gray-200 bg-white",
+          scrolled ? "glass-strong shadow-sm" : "border-b border-gray-200 bg-white",
         )}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">

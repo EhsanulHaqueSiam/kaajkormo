@@ -1,5 +1,5 @@
-import { useState, type ReactNode } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { type ReactNode, useState } from "react";
 import { cn } from "../../lib/utils";
 
 interface TooltipProps {
@@ -47,10 +47,7 @@ export function Tooltip({ content, children, position = "top", className }: Tool
           >
             {content}
             <span
-              className={cn(
-                "absolute h-0 w-0 border-4 border-transparent",
-                arrowStyles[position],
-              )}
+              className={cn("absolute h-0 w-0 border-4 border-transparent", arrowStyles[position])}
             />
           </motion.div>
         )}

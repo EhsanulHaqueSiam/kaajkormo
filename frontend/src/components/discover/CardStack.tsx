@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { SwipeCard } from "./SwipeCard";
 import type { Job } from "../../types";
+import { SwipeCard } from "./SwipeCard";
 
 interface CardStackProps {
   jobs: Job[];
@@ -27,11 +27,7 @@ export function CardStack({ jobs, onSwipe }: CardStackProps) {
             transition={{ duration: 0.3 }}
             className="absolute inset-0"
           >
-            <SwipeCard
-              job={job}
-              isTop={i === 0}
-              onSwipe={(dir) => onSwipe(job, dir)}
-            />
+            <SwipeCard job={job} isTop={i === 0} onSwipe={(dir) => onSwipe(job, dir)} />
           </motion.div>
         ))}
       </AnimatePresence>

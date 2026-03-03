@@ -1,11 +1,11 @@
 import type {
-  Job,
-  Company,
   Application,
-  CandidateProfile,
-  Notification,
-  Interview,
   ApplicationEvent,
+  CandidateProfile,
+  Company,
+  Interview,
+  Job,
+  Notification,
 } from "../types";
 
 // ─── Companies ───────────────────────────────────────────────────────
@@ -106,7 +106,8 @@ export const mockJobs: Job[] = [
     company_id: "c1",
     title: "Senior React Developer",
     slug: "senior-react-developer-grameenphone",
-    description: "We are looking for an experienced React developer to join our digital transformation team. You will be building next-generation telecom applications serving millions of users across Bangladesh.",
+    description:
+      "We are looking for an experienced React developer to join our digital transformation team. You will be building next-generation telecom applications serving millions of users across Bangladesh.",
     requirements: "5+ years of experience with React and TypeScript",
     responsibilities: "Lead frontend architecture decisions and mentor junior developers",
     job_type: "full-time",
@@ -129,7 +130,8 @@ export const mockJobs: Job[] = [
     company_id: "c2",
     title: "Backend Engineer (Rust/Go)",
     slug: "backend-engineer-bkash",
-    description: "Join bKash's core engineering team building high-performance payment processing systems that handle millions of transactions daily.",
+    description:
+      "Join bKash's core engineering team building high-performance payment processing systems that handle millions of transactions daily.",
     requirements: "3+ years of backend development experience",
     responsibilities: "Design and implement scalable microservices",
     job_type: "full-time",
@@ -152,7 +154,8 @@ export const mockJobs: Job[] = [
     company_id: "c3",
     title: "Product Designer",
     slug: "product-designer-pathao",
-    description: "Design intuitive and delightful experiences for millions of Pathao users. Work across ride-sharing, food delivery, and payments products.",
+    description:
+      "Design intuitive and delightful experiences for millions of Pathao users. Work across ride-sharing, food delivery, and payments products.",
     requirements: "3+ years of product design experience with a strong portfolio",
     responsibilities: "Own end-to-end design for key product features",
     job_type: "full-time",
@@ -175,7 +178,8 @@ export const mockJobs: Job[] = [
     company_id: "c4",
     title: "DevOps Engineer",
     slug: "devops-engineer-chaldal",
-    description: "Scale Chaldal's infrastructure to support rapid growth in online grocery delivery across Bangladesh.",
+    description:
+      "Scale Chaldal's infrastructure to support rapid growth in online grocery delivery across Bangladesh.",
     requirements: "2+ years of DevOps experience with cloud platforms",
     responsibilities: "Manage CI/CD pipelines, monitoring, and cloud infrastructure",
     job_type: "full-time",
@@ -198,7 +202,8 @@ export const mockJobs: Job[] = [
     company_id: "c5",
     title: "Mobile App Developer (Flutter)",
     slug: "mobile-app-developer-nagad",
-    description: "Build and maintain Nagad's mobile application used by over 80 million Bangladeshis for digital financial services.",
+    description:
+      "Build and maintain Nagad's mobile application used by over 80 million Bangladeshis for digital financial services.",
     requirements: "2+ years of Flutter/Dart experience",
     responsibilities: "Develop cross-platform mobile features and optimize performance",
     job_type: "full-time",
@@ -221,7 +226,8 @@ export const mockJobs: Job[] = [
     company_id: "c6",
     title: "Data Analyst",
     slug: "data-analyst-robi",
-    description: "Analyze telecom data to drive business decisions at one of Bangladesh's largest mobile operators.",
+    description:
+      "Analyze telecom data to drive business decisions at one of Bangladesh's largest mobile operators.",
     requirements: "1+ years of data analysis experience",
     responsibilities: "Create dashboards, run A/B tests, and present insights to stakeholders",
     job_type: "full-time",
@@ -327,10 +333,42 @@ export const mockApplications: Application[] = [
 // ─── Application Events ──────────────────────────────────────────────
 
 export const mockApplicationEvents: ApplicationEvent[] = [
-  { id: "ae1", application_id: "a1", from_status: null, to_status: "pending", note: "Application submitted", actor_id: "u1", created_at: "2026-02-20T00:00:00Z" },
-  { id: "ae2", application_id: "a1", from_status: "pending", to_status: "viewed", note: "Viewed by recruiter", actor_id: "u2", created_at: "2026-02-22T00:00:00Z" },
-  { id: "ae3", application_id: "a1", from_status: "viewed", to_status: "shortlisted", note: "Strong technical background", actor_id: "u2", created_at: "2026-02-25T00:00:00Z" },
-  { id: "ae4", application_id: "a1", from_status: "shortlisted", to_status: "interview", note: "Scheduled for technical round", actor_id: "u2", created_at: "2026-03-01T00:00:00Z" },
+  {
+    id: "ae1",
+    application_id: "a1",
+    from_status: null,
+    to_status: "pending",
+    note: "Application submitted",
+    actor_id: "u1",
+    created_at: "2026-02-20T00:00:00Z",
+  },
+  {
+    id: "ae2",
+    application_id: "a1",
+    from_status: "pending",
+    to_status: "viewed",
+    note: "Viewed by recruiter",
+    actor_id: "u2",
+    created_at: "2026-02-22T00:00:00Z",
+  },
+  {
+    id: "ae3",
+    application_id: "a1",
+    from_status: "viewed",
+    to_status: "shortlisted",
+    note: "Strong technical background",
+    actor_id: "u2",
+    created_at: "2026-02-25T00:00:00Z",
+  },
+  {
+    id: "ae4",
+    application_id: "a1",
+    from_status: "shortlisted",
+    to_status: "interview",
+    note: "Scheduled for technical round",
+    actor_id: "u2",
+    created_at: "2026-03-01T00:00:00Z",
+  },
 ];
 
 // ─── Interviews ──────────────────────────────────────────────────────

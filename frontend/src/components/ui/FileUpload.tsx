@@ -1,6 +1,6 @@
+import { CheckCircle, FileText, Upload, X } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Upload, X, FileText, CheckCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { ProgressBar } from "./Progress";
 
@@ -74,9 +74,7 @@ export function FileUpload({
           <div className="flex flex-col items-center gap-2">
             <FileText className="h-10 w-10 text-primary-500" />
             <p className="text-sm font-medium text-gray-900">{selectedFile.name}</p>
-            <p className="text-xs text-gray-500">
-              {(selectedFile.size / 1024).toFixed(1)} KB
-            </p>
+            <p className="text-xs text-gray-500">{(selectedFile.size / 1024).toFixed(1)} KB</p>
             {progress !== undefined && progress < 100 && (
               <ProgressBar value={progress} size="sm" className="mt-2 max-w-xs" />
             )}
@@ -84,10 +82,7 @@ export function FileUpload({
         ) : (
           <div className="flex flex-col items-center gap-2">
             <Upload
-              className={cn(
-                "h-10 w-10",
-                isDragActive ? "text-primary-500" : "text-gray-400",
-              )}
+              className={cn("h-10 w-10", isDragActive ? "text-primary-500" : "text-gray-400")}
             />
             <p className="text-sm font-medium text-gray-700">{label}</p>
             <p className="text-xs text-gray-500">{description}</p>

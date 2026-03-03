@@ -23,7 +23,11 @@ export function Card({ className, children, variant = "default", ...props }: Car
   );
 }
 
-export function CardHeader({ className, children, ...props }: HTMLAttributes<HTMLDivElement> & { children: ReactNode }) {
+export function CardHeader({
+  className,
+  children,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & { children: ReactNode }) {
   return (
     <div className={cn("mb-4", className)} {...props}>
       {children}
@@ -31,7 +35,11 @@ export function CardHeader({ className, children, ...props }: HTMLAttributes<HTM
   );
 }
 
-export function CardTitle({ className, children, ...props }: HTMLAttributes<HTMLHeadingElement> & { children: ReactNode }) {
+export function CardTitle({
+  className,
+  children,
+  ...props
+}: HTMLAttributes<HTMLHeadingElement> & { children: ReactNode }) {
   return (
     <h3 className={cn("text-lg font-semibold text-gray-900", className)} {...props}>
       {children}
@@ -39,7 +47,11 @@ export function CardTitle({ className, children, ...props }: HTMLAttributes<HTML
   );
 }
 
-export function CardContent({ className, children, ...props }: HTMLAttributes<HTMLDivElement> & { children: ReactNode }) {
+export function CardContent({
+  className,
+  children,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & { children: ReactNode }) {
   return (
     <div className={cn("", className)} {...props}>
       {children}
@@ -47,9 +59,16 @@ export function CardContent({ className, children, ...props }: HTMLAttributes<HT
   );
 }
 
-export function CardFooter({ className, children, ...props }: HTMLAttributes<HTMLDivElement> & { children: ReactNode }) {
+export function CardFooter({
+  className,
+  children,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & { children: ReactNode }) {
   return (
-    <div className={cn("mt-4 flex items-center gap-3 border-t border-gray-100 pt-4", className)} {...props}>
+    <div
+      className={cn("mt-4 flex items-center gap-3 border-t border-gray-100 pt-4", className)}
+      {...props}
+    >
       {children}
     </div>
   );

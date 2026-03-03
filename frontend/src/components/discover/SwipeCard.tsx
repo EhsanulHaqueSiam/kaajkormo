@@ -1,8 +1,8 @@
-import { motion, useMotionValue, useTransform, type PanInfo } from "framer-motion";
-import { MapPin, Briefcase, DollarSign, Clock } from "lucide-react";
-import { Badge } from "../ui/Badge";
+import { motion, type PanInfo, useMotionValue, useTransform } from "framer-motion";
+import { Briefcase, Clock, DollarSign, MapPin } from "lucide-react";
 import { formatSalary, timeAgo } from "../../lib/utils";
 import type { Job } from "../../types";
+import { Badge } from "../ui/Badge";
 
 interface SwipeCardProps {
   job: Job;
@@ -107,9 +107,7 @@ export function SwipeCard({ job, onSwipe, isTop = false }: SwipeCardProps) {
 
         {/* Description */}
         <div className="mt-5 flex-1 overflow-y-auto">
-          <p className="text-sm leading-relaxed text-gray-600 line-clamp-6">
-            {job.description}
-          </p>
+          <p className="text-sm leading-relaxed text-gray-600 line-clamp-6">{job.description}</p>
         </div>
 
         {/* Skills */}

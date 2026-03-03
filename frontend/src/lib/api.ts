@@ -1,5 +1,4 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL ?? "http://localhost:8080";
+const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 
 type RequestOptions = Omit<RequestInit, "body"> & {
   body?: unknown;
@@ -21,10 +20,7 @@ export function setTokenGetter(fn: () => Promise<string | null>) {
   getToken = fn;
 }
 
-async function request<T>(
-  endpoint: string,
-  options: RequestOptions = {},
-): Promise<T> {
+async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
   const { body, headers: customHeaders, ...rest } = options;
 
   const headers: Record<string, string> = {
@@ -36,7 +32,7 @@ async function request<T>(
   if (getToken) {
     const token = await getToken();
     if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
+      headers.Authorization = `Bearer ${token}`;
     }
   }
 
@@ -65,11 +61,7 @@ async function request<T>(
   return response.json();
 }
 
-async function uploadFile<T>(
-  endpoint: string,
-  file: File,
-  fieldName = "file",
-): Promise<T> {
+async function uploadFile<T>(endpoint: string, file: File, fieldName = "file"): Promise<T> {
   const formData = new FormData();
   formData.append(fieldName, file);
 
@@ -78,7 +70,7 @@ async function uploadFile<T>(
   if (getToken) {
     const token = await getToken();
     if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
+      headers.Authorization = `Bearer ${token}`;
     }
   }
 
@@ -106,14 +98,11 @@ async function uploadFile<T>(
 export const api = {
   get: <T>(endpoint: string) => request<T>(endpoint),
 
-  post: <T>(endpoint: string, body?: unknown) =>
-    request<T>(endpoint, { method: "POST", body }),
+  post: <T>(endpoint: string, body?: unknown) => request<T>(endpoint, { method: "POST", body }),
 
-  put: <T>(endpoint: string, body?: unknown) =>
-    request<T>(endpoint, { method: "PUT", body }),
+  put: <T>(endpoint: string, body?: unknown) => request<T>(endpoint, { method: "PUT", body }),
 
-  patch: <T>(endpoint: string, body?: unknown) =>
-    request<T>(endpoint, { method: "PATCH", body }),
+  patch: <T>(endpoint: string, body?: unknown) => request<T>(endpoint, { method: "PATCH", body }),
 
   delete: <T>(endpoint: string) => request<T>(endpoint, { method: "DELETE" }),
 

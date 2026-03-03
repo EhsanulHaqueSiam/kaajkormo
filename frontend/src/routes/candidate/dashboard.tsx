@@ -1,24 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
-  Briefcase,
-  Clock,
-  CheckCircle,
-  Compass,
-  Calendar,
-  Bookmark,
-  TrendingUp,
   ArrowRight,
+  Bookmark,
+  Briefcase,
+  Calendar,
+  CheckCircle,
+  Clock,
+  Compass,
+  TrendingUp,
 } from "lucide-react";
-import { Card } from "../../components/ui/Card";
 import { Badge } from "../../components/ui/Badge";
 import { Button } from "../../components/ui/Button";
+import { Card } from "../../components/ui/Card";
 import { Spinner } from "../../components/ui/Spinner";
 import { StatsCard } from "../../components/ui/StatsCard";
+import { useAppUser } from "../../lib/auth";
 import { useCandidateApplications } from "../../lib/queries/candidate";
 import { useUpcomingInterviews } from "../../lib/queries/interviews";
-import { useAppUser } from "../../lib/auth";
-import { timeAgo, formatDate } from "../../lib/utils";
+import { formatDate, timeAgo } from "../../lib/utils";
 
 export const Route = createFileRoute("/candidate/dashboard")({
   component: CandidateDashboard,
@@ -57,10 +57,26 @@ function CandidateDashboard() {
 
       {/* Stats */}
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        <StatsCard icon={<Briefcase className="h-5 w-5" />} label="Total Applications" value={isLoading ? 0 : applications.length} />
-        <StatsCard icon={<Clock className="h-5 w-5" />} label="Pending" value={isLoading ? 0 : pendingCount} />
-        <StatsCard icon={<Calendar className="h-5 w-5" />} label="Interviews" value={isLoading ? 0 : interviewCount} />
-        <StatsCard icon={<CheckCircle className="h-5 w-5" />} label="Offers" value={isLoading ? 0 : offeredCount} />
+        <StatsCard
+          icon={<Briefcase className="h-5 w-5" />}
+          label="Total Applications"
+          value={isLoading ? 0 : applications.length}
+        />
+        <StatsCard
+          icon={<Clock className="h-5 w-5" />}
+          label="Pending"
+          value={isLoading ? 0 : pendingCount}
+        />
+        <StatsCard
+          icon={<Calendar className="h-5 w-5" />}
+          label="Interviews"
+          value={isLoading ? 0 : interviewCount}
+        />
+        <StatsCard
+          icon={<CheckCircle className="h-5 w-5" />}
+          label="Offers"
+          value={isLoading ? 0 : offeredCount}
+        />
       </div>
 
       {/* Discover CTA */}
@@ -119,12 +135,17 @@ function CandidateDashboard() {
         <div>
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">Recent Applications</h2>
-            <Link to="/candidate/applications" className="text-sm text-primary-600 hover:text-primary-700">
+            <Link
+              to="/candidate/applications"
+              className="text-sm text-primary-600 hover:text-primary-700"
+            >
               View all
             </Link>
           </div>
           {isLoading ? (
-            <div className="flex justify-center py-8"><Spinner /></div>
+            <div className="flex justify-center py-8">
+              <Spinner />
+            </div>
           ) : applications.length === 0 ? (
             <Card className="text-center">
               <Briefcase className="mx-auto h-8 w-8 text-gray-300" />
@@ -145,9 +166,7 @@ function CandidateDashboard() {
                       {app.job?.company?.name ?? "Company"} &middot; {timeAgo(app.created_at)}
                     </p>
                   </div>
-                  <Badge variant={statusVariant[app.status] ?? "default"}>
-                    {app.status}
-                  </Badge>
+                  <Badge variant={statusVariant[app.status] ?? "default"}>{app.status}</Badge>
                 </Card>
               ))}
             </div>
@@ -158,13 +177,19 @@ function CandidateDashboard() {
       {/* Quick Links */}
       <div className="mt-6 flex flex-wrap gap-3">
         <Link to="/jobs">
-          <Button variant="outline" size="sm" icon={<Briefcase className="h-4 w-4" />}>Search Jobs</Button>
+          <Button variant="outline" size="sm" icon={<Briefcase className="h-4 w-4" />}>
+            Search Jobs
+          </Button>
         </Link>
         <Link to="/candidate/saved">
-          <Button variant="outline" size="sm" icon={<Bookmark className="h-4 w-4" />}>Saved Jobs</Button>
+          <Button variant="outline" size="sm" icon={<Bookmark className="h-4 w-4" />}>
+            Saved Jobs
+          </Button>
         </Link>
         <Link to="/candidate/profile">
-          <Button variant="outline" size="sm" icon={<TrendingUp className="h-4 w-4" />}>Edit Profile</Button>
+          <Button variant="outline" size="sm" icon={<TrendingUp className="h-4 w-4" />}>
+            Edit Profile
+          </Button>
         </Link>
       </div>
     </div>

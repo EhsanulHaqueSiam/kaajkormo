@@ -1,15 +1,12 @@
-import { useCallback } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Mail, FileText } from "lucide-react";
+import { ArrowLeft, FileText, Mail } from "lucide-react";
+import { useCallback } from "react";
 import { Badge } from "../../components/ui/Badge";
 import { Button } from "../../components/ui/Button";
-import { Spinner } from "../../components/ui/Spinner";
 import { KanbanBoard } from "../../components/ui/KanbanBoard";
+import { Spinner } from "../../components/ui/Spinner";
 import { showToast } from "../../components/ui/Toast";
-import {
-  useJobApplicants,
-  useUpdateApplicationStatus,
-} from "../../lib/queries/employer";
+import { useJobApplicants, useUpdateApplicationStatus } from "../../lib/queries/employer";
 import { timeAgo } from "../../lib/utils";
 import type { Application } from "../../types";
 
@@ -74,11 +71,11 @@ function ApplicantsPage() {
         </Link>
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Applicants</h1>
-          <p className="text-sm text-gray-500">
-            Drag cards between columns to update status
-          </p>
+          <p className="text-sm text-gray-500">Drag cards between columns to update status</p>
         </div>
-        <Badge variant="info" className="ml-2">{applicants.length} total</Badge>
+        <Badge variant="info" className="ml-2">
+          {applicants.length} total
+        </Badge>
       </div>
 
       {applicants.length === 0 ? (
@@ -95,9 +92,7 @@ function ApplicantsPage() {
 function ApplicantCard({ app }: { app: Application }) {
   return (
     <div>
-      <p className="font-medium text-gray-900 text-sm">
-        {app.candidate?.full_name ?? "Applicant"}
-      </p>
+      <p className="font-medium text-gray-900 text-sm">{app.candidate?.full_name ?? "Applicant"}</p>
       <p className="mt-0.5 text-xs text-gray-500">{app.candidate?.email}</p>
       <p className="mt-1 text-xs text-gray-400">Applied {timeAgo(app.created_at)}</p>
       {app.cover_letter && (

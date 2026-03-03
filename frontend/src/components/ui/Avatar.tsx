@@ -28,14 +28,7 @@ export function Avatar({ src, name, size = "md", online, className }: AvatarProp
   return (
     <div className={cn("relative inline-flex shrink-0", className)}>
       {src ? (
-        <img
-          src={src}
-          alt={name}
-          className={cn(
-            "rounded-full object-cover",
-            sizeStyles[size],
-          )}
-        />
+        <img src={src} alt={name} className={cn("rounded-full object-cover", sizeStyles[size])} />
       ) : (
         <div
           className={cn(

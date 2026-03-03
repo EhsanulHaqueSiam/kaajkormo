@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect, forwardRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Search, Check } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, ChevronDown, Search } from "lucide-react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/utils";
 
 interface SelectOption {
@@ -47,9 +47,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
     const selectedOption = options.find((o) => o.value === value);
 
     const filteredOptions = search
-      ? options.filter((o) =>
-          o.label.toLowerCase().includes(search.toLowerCase()),
-        )
+      ? options.filter((o) => o.label.toLowerCase().includes(search.toLowerCase()))
       : options;
 
     // Group options
@@ -77,10 +75,7 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
         <input type="hidden" name={name} value={value || ""} ref={ref} />
 
         {label && (
-          <label
-            htmlFor={id}
-            className="mb-1.5 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-gray-700">
             {label}
           </label>
         )}
@@ -127,7 +122,6 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
                       placeholder="Search..."
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
-                      autoFocus
                     />
                   </div>
                 </div>
@@ -155,18 +149,14 @@ export const Select = forwardRef<HTMLInputElement, SelectProps>(
                       }}
                     >
                       {opt.label}
-                      {opt.value === value && (
-                        <Check className="h-4 w-4 text-primary-600" />
-                      )}
+                      {opt.value === value && <Check className="h-4 w-4 text-primary-600" />}
                     </button>
                   ))}
                 </div>
               ))}
 
               {filteredOptions.length === 0 && (
-                <div className="px-3 py-4 text-center text-sm text-gray-500">
-                  No options found
-                </div>
+                <div className="px-3 py-4 text-center text-sm text-gray-500">No options found</div>
               )}
             </motion.div>
           )}

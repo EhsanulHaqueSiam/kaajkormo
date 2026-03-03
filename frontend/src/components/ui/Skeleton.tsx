@@ -19,16 +19,16 @@ export function SkeletonText({ className, lines = 3 }: SkeletonProps & { lines?:
   return (
     <div className={cn("space-y-2", className)}>
       {Array.from({ length: lines }).map((_, i) => (
-        <SkeletonBase
-          key={i}
-          className={cn("h-4", i === lines - 1 ? "w-3/4" : "w-full")}
-        />
+        <SkeletonBase key={i} className={cn("h-4", i === lines - 1 ? "w-3/4" : "w-full")} />
       ))}
     </div>
   );
 }
 
-export function SkeletonAvatar({ className, size = "md" }: SkeletonProps & { size?: "sm" | "md" | "lg" }) {
+export function SkeletonAvatar({
+  className,
+  size = "md",
+}: SkeletonProps & { size?: "sm" | "md" | "lg" }) {
   const sizes = { sm: "h-8 w-8", md: "h-10 w-10", lg: "h-14 w-14" };
   return <SkeletonBase className={cn("rounded-full", sizes[size], className)} />;
 }
@@ -57,10 +57,7 @@ export function SkeletonTableRow({ className, cols = 4 }: SkeletonProps & { cols
   return (
     <div className={cn("flex items-center gap-4 py-3", className)}>
       {Array.from({ length: cols }).map((_, i) => (
-        <SkeletonBase
-          key={i}
-          className={cn("h-4 flex-1", i === 0 && "max-w-[200px]")}
-        />
+        <SkeletonBase key={i} className={cn("h-4 flex-1", i === 0 && "max-w-[200px]")} />
       ))}
     </div>
   );

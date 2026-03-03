@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Card } from "../../components/ui/Card";
+import { useState } from "react";
 import { Badge } from "../../components/ui/Badge";
 import { Button } from "../../components/ui/Button";
+import { Card } from "../../components/ui/Card";
 import { Spinner } from "../../components/ui/Spinner";
 import { useAdminJobs, useModerateJob } from "../../lib/queries/admin";
 import { formatDate } from "../../lib/utils";
@@ -65,20 +65,14 @@ function AdminJobsPage() {
                 {jobs.map((job) => (
                   <tr key={job.id}>
                     <td className="px-4 py-4">
-                      <p className="font-medium text-gray-900 truncate max-w-xs">
-                        {job.title}
-                      </p>
+                      <p className="font-medium text-gray-900 truncate max-w-xs">{job.title}</p>
                       <p className="text-xs text-gray-500">
                         {job.job_type} · {job.experience_level}
                       </p>
                     </td>
-                    <td className="px-4 py-4 text-sm text-gray-500">
-                      {job.company?.name ?? "—"}
-                    </td>
+                    <td className="px-4 py-4 text-sm text-gray-500">{job.company?.name ?? "—"}</td>
                     <td className="px-4 py-4">
-                      <Badge variant={statusVariant[job.status] ?? "default"}>
-                        {job.status}
-                      </Badge>
+                      <Badge variant={statusVariant[job.status] ?? "default"}>{job.status}</Badge>
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-500">
                       {formatDate(job.created_at)}

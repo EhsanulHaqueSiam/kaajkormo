@@ -1,14 +1,14 @@
-import { useState, type FormEvent } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { type FormEvent, useState } from "react";
+import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import { Input } from "../../components/ui/Input";
-import { Textarea } from "../../components/ui/Textarea";
 import { Select } from "../../components/ui/Select";
-import { Button } from "../../components/ui/Button";
-import { useCreateJob } from "../../lib/queries/employer";
+import { Textarea } from "../../components/ui/Textarea";
 import { ApiError } from "../../lib/api";
+import { useCreateJob } from "../../lib/queries/employer";
 import { cn } from "../../lib/utils";
-import type { JobType, ExperienceLevel } from "../../types";
+import type { ExperienceLevel, JobType } from "../../types";
 
 export const Route = createFileRoute("/employer/post-job")({
   component: PostJobPage,
@@ -40,8 +40,7 @@ function PostJobPage() {
   // Form state
   const [title, setTitle] = useState("");
   const [jobType, setJobType] = useState<JobType>("full-time");
-  const [experienceLevel, setExperienceLevel] =
-    useState<ExperienceLevel>("mid");
+  const [experienceLevel, setExperienceLevel] = useState<ExperienceLevel>("mid");
   const [location, setLocation] = useState("");
   const [isRemote, setIsRemote] = useState(false);
   const [description, setDescription] = useState("");
@@ -108,9 +107,7 @@ function PostJobPage() {
               onClick={() => setStep(i)}
               className={cn(
                 "flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-colors",
-                i <= step
-                  ? "bg-primary-600 text-white"
-                  : "bg-gray-200 text-gray-500",
+                i <= step ? "bg-primary-600 text-white" : "bg-gray-200 text-gray-500",
               )}
             >
               {i + 1}
@@ -125,29 +122,20 @@ function PostJobPage() {
             </span>
             {i < steps.length - 1 && (
               <div
-                className={cn(
-                  "h-0.5 w-6 sm:w-12",
-                  i < step ? "bg-primary-600" : "bg-gray-200",
-                )}
+                className={cn("h-0.5 w-6 sm:w-12", i < step ? "bg-primary-600" : "bg-gray-200")}
               />
             )}
           </div>
         ))}
       </div>
 
-      {error && (
-        <div className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">
-          {error}
-        </div>
-      )}
+      {error && <div className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</div>}
 
       <form onSubmit={handleSubmit}>
         {/* Step 1: Basic Info */}
         {step === 0 && (
           <Card className="mt-6">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">
-              Basic Information
-            </h2>
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">Basic Information</h2>
             <div className="space-y-4">
               <Input
                 id="title"
@@ -170,9 +158,7 @@ function PostJobPage() {
                   label="Experience Level"
                   options={experienceOptions}
                   value={experienceLevel}
-                  onChange={(val) =>
-                    setExperienceLevel(val as ExperienceLevel)
-                  }
+                  onChange={(val) => setExperienceLevel(val as ExperienceLevel)}
                 />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
@@ -207,9 +193,7 @@ function PostJobPage() {
         {/* Step 2: Details */}
         {step === 1 && (
           <Card className="mt-6">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">
-              Job Details
-            </h2>
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">Job Details</h2>
             <div className="space-y-4">
               <Textarea
                 id="description"
@@ -237,9 +221,7 @@ function PostJobPage() {
                 onChange={(e) => setResponsibilities(e.target.value)}
               />
               <div>
-                <label className="mb-1 block text-sm font-medium text-gray-700">
-                  Skills
-                </label>
+                <label className="mb-1 block text-sm font-medium text-gray-700">Skills</label>
                 <div className="flex gap-2">
                   <Input
                     placeholder="Add skills (press Enter)"
@@ -266,9 +248,7 @@ function PostJobPage() {
                         {skill}
                         <button
                           type="button"
-                          onClick={() =>
-                            setSkills(skills.filter((s) => s !== skill))
-                          }
+                          onClick={() => setSkills(skills.filter((s) => s !== skill))}
                           className="ml-1 text-primary-400 hover:text-primary-700"
                         >
                           ×
@@ -293,9 +273,7 @@ function PostJobPage() {
         {/* Step 3: Compensation */}
         {step === 2 && (
           <Card className="mt-6">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">
-              Compensation & Deadline
-            </h2>
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">Compensation & Deadline</h2>
             <div className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-3">
                 <Input
@@ -347,9 +325,7 @@ function PostJobPage() {
         {/* Step 4: Review */}
         {step === 3 && (
           <Card className="mt-6">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">
-              Review & Publish
-            </h2>
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">Review & Publish</h2>
             <div className="space-y-4 text-sm">
               <div className="rounded-lg bg-gray-50 p-4">
                 <p className="font-medium text-gray-900">{title || "Untitled"}</p>
@@ -359,22 +335,16 @@ function PostJobPage() {
                 </p>
                 {(salaryMin || salaryMax) && (
                   <p className="mt-1 text-gray-500">
-                    Salary: {salaryCurrency}{" "}
-                    {salaryMin && salaryMin}
+                    Salary: {salaryCurrency} {salaryMin && salaryMin}
                     {salaryMin && salaryMax && " - "}
                     {salaryMax && salaryMax}
                   </p>
                 )}
-                {deadline && (
-                  <p className="mt-1 text-gray-500">Deadline: {deadline}</p>
-                )}
+                {deadline && <p className="mt-1 text-gray-500">Deadline: {deadline}</p>}
                 {skills.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1">
                     {skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="rounded bg-gray-200 px-2 py-0.5 text-xs"
-                      >
+                      <span key={skill} className="rounded bg-gray-200 px-2 py-0.5 text-xs">
                         {skill}
                       </span>
                     ))}

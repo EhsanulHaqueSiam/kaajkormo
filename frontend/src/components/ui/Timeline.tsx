@@ -46,10 +46,7 @@ export function Timeline({ items, className }: TimelineProps) {
               </div>
             ) : (
               <div
-                className={cn(
-                  "h-6 w-6 rounded-full ring-4",
-                  dotColors[item.color || "primary"],
-                )}
+                className={cn("h-6 w-6 rounded-full ring-4", dotColors[item.color || "primary"])}
               />
             )}
           </div>
@@ -59,13 +56,9 @@ export function Timeline({ items, className }: TimelineProps) {
             <div className="flex items-start justify-between gap-2">
               <div>
                 <p className="text-sm font-semibold text-gray-900">{item.title}</p>
-                {item.subtitle && (
-                  <p className="text-sm text-gray-500">{item.subtitle}</p>
-                )}
+                {item.subtitle && <p className="text-sm text-gray-500">{item.subtitle}</p>}
               </div>
-              {item.date && (
-                <span className="shrink-0 text-xs text-gray-400">{item.date}</span>
-              )}
+              {item.date && <span className="shrink-0 text-xs text-gray-400">{item.date}</span>}
             </div>
             {item.content && <div className="mt-2">{item.content}</div>}
           </div>

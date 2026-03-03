@@ -1,8 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Bell, Check } from "lucide-react";
-import { cn } from "../../lib/utils";
-import { timeAgo } from "../../lib/utils";
+import { useEffect, useRef, useState } from "react";
+import { cn, timeAgo } from "../../lib/utils";
 
 interface Notification {
   id: string;
@@ -88,9 +87,7 @@ export function NotificationBell({
             {/* List */}
             <div className="max-h-80 overflow-y-auto">
               {notifications.length === 0 ? (
-                <div className="py-8 text-center text-sm text-gray-500">
-                  No notifications
-                </div>
+                <div className="py-8 text-center text-sm text-gray-500">No notifications</div>
               ) : (
                 notifications.slice(0, 10).map((n) => (
                   <button
@@ -104,13 +101,16 @@ export function NotificationBell({
                     <span
                       className={cn(
                         "mt-1.5 h-2 w-2 shrink-0 rounded-full",
-                        !n.read
-                          ? typeDots[n.type || "info"]
-                          : "bg-transparent",
+                        !n.read ? typeDots[n.type || "info"] : "bg-transparent",
                       )}
                     />
                     <div className="min-w-0 flex-1">
-                      <p className={cn("text-sm", !n.read ? "font-medium text-gray-900" : "text-gray-700")}>
+                      <p
+                        className={cn(
+                          "text-sm",
+                          !n.read ? "font-medium text-gray-900" : "text-gray-700",
+                        )}
+                      >
                         {n.title}
                       </p>
                       <p className="mt-0.5 text-xs text-gray-500 line-clamp-2">{n.message}</p>

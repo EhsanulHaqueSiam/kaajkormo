@@ -1,27 +1,17 @@
-import { useState, useEffect, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import {
-  User,
-  Briefcase,
-  Link2,
-  Upload,
-  FileText,
-  Camera,
-} from "lucide-react";
+import { Briefcase, Camera, FileText, Link2, Upload, User } from "lucide-react";
+import { type FormEvent, useEffect, useState } from "react";
+import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
 import { Input } from "../../components/ui/Input";
-import { Textarea } from "../../components/ui/Textarea";
-import { Button } from "../../components/ui/Button";
+import { ProgressRing } from "../../components/ui/Progress";
 import { Spinner } from "../../components/ui/Spinner";
 import { Tabs } from "../../components/ui/Tabs";
-import { ProgressRing } from "../../components/ui/Progress";
+import { Textarea } from "../../components/ui/Textarea";
 import { showToast } from "../../components/ui/Toast";
-import {
-  useCandidateProfile,
-  useUpdateCandidateProfile,
-} from "../../lib/queries/candidate";
-import { useUploadPhoto, useUploadResume, useParseResume } from "../../lib/queries/uploads";
+import { useCandidateProfile, useUpdateCandidateProfile } from "../../lib/queries/candidate";
+import { useParseResume, useUploadPhoto, useUploadResume } from "../../lib/queries/uploads";
 
 export const Route = createFileRoute("/candidate/profile")({
   component: CandidateProfile,
@@ -79,7 +69,11 @@ function CandidateProfile() {
 
   // Completion calculation
   const fields = [headline, bio, location, education, phone];
-  const filled = fields.filter(Boolean).length + (skills.length > 0 ? 1 : 0) + (photoUrl ? 1 : 0) + (resumeUrl ? 1 : 0);
+  const filled =
+    fields.filter(Boolean).length +
+    (skills.length > 0 ? 1 : 0) +
+    (photoUrl ? 1 : 0) +
+    (resumeUrl ? 1 : 0);
   const totalFields = fields.length + 3;
   const completionPct = Math.round((filled / totalFields) * 100);
 
@@ -215,13 +209,24 @@ function CandidateProfile() {
         </div>
 
         {/* Completion ring */}
-        <ProgressRing value={completionPct} size={80} strokeWidth={6} color={completionPct >= 80 ? "success" : completionPct >= 50 ? "primary" : "warning"}>
+        <ProgressRing
+          value={completionPct}
+          size={80}
+          strokeWidth={6}
+          color={completionPct >= 80 ? "success" : completionPct >= 50 ? "primary" : "warning"}
+        >
           <span className="text-sm font-bold text-gray-900">{completionPct}%</span>
         </ProgressRing>
       </div>
 
       {/* Tabs */}
-      <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} variant="pills" className="mb-6" />
+      <Tabs
+        tabs={tabs}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        variant="pills"
+        className="mb-6"
+      />
 
       <form onSubmit={handleSubmit}>
         <motion.div
@@ -328,23 +333,77 @@ function CandidateProfile() {
             <Card className="space-y-5">
               <h3 className="text-sm font-semibold text-gray-900">Professional Links</h3>
               <div className="grid gap-4 sm:grid-cols-2">
-                <Input id="linkedin" label="LinkedIn" placeholder="https://linkedin.com/in/..." value={linkedinUrl} onChange={(e) => setLinkedinUrl(e.target.value)} />
-                <Input id="github" label="GitHub" placeholder="https://github.com/..." value={githubUrl} onChange={(e) => setGithubUrl(e.target.value)} />
+                <Input
+                  id="linkedin"
+                  label="LinkedIn"
+                  placeholder="https://linkedin.com/in/..."
+                  value={linkedinUrl}
+                  onChange={(e) => setLinkedinUrl(e.target.value)}
+                />
+                <Input
+                  id="github"
+                  label="GitHub"
+                  placeholder="https://github.com/..."
+                  value={githubUrl}
+                  onChange={(e) => setGithubUrl(e.target.value)}
+                />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
-                <Input id="portfolio" label="Portfolio" placeholder="https://..." value={portfolioUrl} onChange={(e) => setPortfolioUrl(e.target.value)} />
-                <Input id="personalWebsite" label="Personal Website" placeholder="https://..." value={personalWebsite} onChange={(e) => setPersonalWebsite(e.target.value)} />
+                <Input
+                  id="portfolio"
+                  label="Portfolio"
+                  placeholder="https://..."
+                  value={portfolioUrl}
+                  onChange={(e) => setPortfolioUrl(e.target.value)}
+                />
+                <Input
+                  id="personalWebsite"
+                  label="Personal Website"
+                  placeholder="https://..."
+                  value={personalWebsite}
+                  onChange={(e) => setPersonalWebsite(e.target.value)}
+                />
               </div>
               <h3 className="pt-2 text-sm font-semibold text-gray-900">Engineering & Creative</h3>
               <div className="grid gap-4 sm:grid-cols-2">
-                <Input id="stackoverflow" label="Stack Overflow" placeholder="https://stackoverflow.com/users/..." value={stackoverflowUrl} onChange={(e) => setStackoverflowUrl(e.target.value)} />
-                <Input id="leetcode" label="LeetCode" placeholder="https://leetcode.com/..." value={leetcodeUrl} onChange={(e) => setLeetcodeUrl(e.target.value)} />
+                <Input
+                  id="stackoverflow"
+                  label="Stack Overflow"
+                  placeholder="https://stackoverflow.com/users/..."
+                  value={stackoverflowUrl}
+                  onChange={(e) => setStackoverflowUrl(e.target.value)}
+                />
+                <Input
+                  id="leetcode"
+                  label="LeetCode"
+                  placeholder="https://leetcode.com/..."
+                  value={leetcodeUrl}
+                  onChange={(e) => setLeetcodeUrl(e.target.value)}
+                />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
-                <Input id="codeforces" label="Codeforces" placeholder="https://codeforces.com/profile/..." value={codeforcesUrl} onChange={(e) => setCodeforcesUrl(e.target.value)} />
-                <Input id="behance" label="Behance" placeholder="https://behance.net/..." value={behanceUrl} onChange={(e) => setBehanceUrl(e.target.value)} />
+                <Input
+                  id="codeforces"
+                  label="Codeforces"
+                  placeholder="https://codeforces.com/profile/..."
+                  value={codeforcesUrl}
+                  onChange={(e) => setCodeforcesUrl(e.target.value)}
+                />
+                <Input
+                  id="behance"
+                  label="Behance"
+                  placeholder="https://behance.net/..."
+                  value={behanceUrl}
+                  onChange={(e) => setBehanceUrl(e.target.value)}
+                />
               </div>
-              <Input id="medium" label="Medium / Blog" placeholder="https://medium.com/@..." value={mediumUrl} onChange={(e) => setMediumUrl(e.target.value)} />
+              <Input
+                id="medium"
+                label="Medium / Blog"
+                placeholder="https://medium.com/@..."
+                value={mediumUrl}
+                onChange={(e) => setMediumUrl(e.target.value)}
+              />
             </Card>
           )}
 
@@ -361,7 +420,12 @@ function CandidateProfile() {
                     <p className="text-sm text-gray-500">Upload your resume (PDF, DOCX)</p>
                   )}
                   <label>
-                    <Button type="button" variant="outline" size="sm" loading={uploadResume.isPending}>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      loading={uploadResume.isPending}
+                    >
                       {resumeUrl ? "Replace Resume" : "Choose File"}
                     </Button>
                     <input
@@ -381,7 +445,13 @@ function CandidateProfile() {
                   Upload your resume and we'll extract skills and education to fill in your profile.
                 </p>
                 <label>
-                  <Button type="button" variant="outline" size="sm" icon={<FileText className="h-4 w-4" />} loading={parseResume.isPending}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    icon={<FileText className="h-4 w-4" />}
+                    loading={parseResume.isPending}
+                  >
                     Parse Resume
                   </Button>
                   <input

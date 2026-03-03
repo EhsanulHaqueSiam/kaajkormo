@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Search, Filter } from "lucide-react";
-import { Card } from "../../components/ui/Card";
+import { Filter, Search } from "lucide-react";
+import { useState } from "react";
 import { Button } from "../../components/ui/Button";
+import { Card } from "../../components/ui/Card";
 import { EmptyState } from "../../components/ui/EmptyState";
 
 export const Route = createFileRoute("/employer/candidates")({

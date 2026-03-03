@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { Job, PaginatedResponse, User } from "../../types";
 import { api } from "../api";
-import type { Job, User, PaginatedResponse } from "../../types";
 
 interface PlatformStats {
   total_users: number;
@@ -19,16 +19,14 @@ export function usePlatformStats() {
 export function useAdminJobs(page = 1) {
   return useQuery({
     queryKey: ["admin", "jobs", page],
-    queryFn: () =>
-      api.get<PaginatedResponse<Job>>(`/api/admin/jobs?page=${page}`),
+    queryFn: () => api.get<PaginatedResponse<Job>>(`/api/admin/jobs?page=${page}`),
   });
 }
 
 export function useAdminUsers(page = 1) {
   return useQuery({
     queryKey: ["admin", "users", page],
-    queryFn: () =>
-      api.get<PaginatedResponse<User>>(`/api/admin/users?page=${page}`),
+    queryFn: () => api.get<PaginatedResponse<User>>(`/api/admin/users?page=${page}`),
   });
 }
 

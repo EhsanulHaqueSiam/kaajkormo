@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Notification, PaginatedResponse } from "../../types";
+import { api } from "../api";
 
 export function useNotifications() {
   return useQuery({

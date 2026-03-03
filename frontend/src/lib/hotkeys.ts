@@ -1,0 +1,31 @@
+export const HOTKEYS = {
+  COMMAND_PALETTE: "mod+k",
+  GO_HOME: "g>h",
+  GO_JOBS: "g>j",
+  GO_DISCOVER: "g>d",
+  GO_DASHBOARD: "g>b",
+  SHOW_SHORTCUTS: "shift+/",
+  SWIPE_APPLY: "right",
+  SWIPE_SKIP: "left",
+  SWIPE_SAVE: "up",
+  APPLY_JOB: "a",
+  SAVE_JOB: "s",
+  NEXT_JOB: "j",
+  PREV_JOB: "k",
+} as const;
+
+export const HOTKEY_LABELS: Record<string, { keys: string; description: string; group: string }> = {
+  COMMAND_PALETTE: { keys: "⌘ K", description: "Open command palette", group: "Global" },
+  GO_HOME: { keys: "g → h", description: "Go to home", group: "Global" },
+  GO_JOBS: { keys: "g → j", description: "Go to jobs", group: "Global" },
+  GO_DISCOVER: { keys: "g → d", description: "Go to discover", group: "Global" },
+  GO_DASHBOARD: { keys: "g → b", description: "Go to dashboard", group: "Global" },
+  SHOW_SHORTCUTS: { keys: "?", description: "Show shortcuts", group: "Global" },
+  SWIPE_APPLY: { keys: "→", description: "Apply to job", group: "Discover" },
+  SWIPE_SKIP: { keys: "←", description: "Skip job", group: "Discover" },
+  SWIPE_SAVE: { keys: "↑", description: "Save job", group: "Discover" },
+  APPLY_JOB: { keys: "a", description: "Apply to job", group: "Job Detail" },
+  SAVE_JOB: { keys: "s", description: "Save job", group: "Job Detail" },
+  NEXT_JOB: { keys: "j", description: "Next job", group: "Job Detail" },
+  PREV_JOB: { keys: "k", description: "Previous job", group: "Job Detail" },
+};

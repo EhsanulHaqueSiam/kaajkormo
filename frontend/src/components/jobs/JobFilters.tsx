@@ -1,7 +1,7 @@
-import { Select } from "../ui/Select";
-import { Input } from "../ui/Input";
-import { Button } from "../ui/Button";
 import type { JobSearchParams } from "../../types";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
+import { Select } from "../ui/Select";
 
 interface JobFiltersProps {
   filters: JobSearchParams;
@@ -33,12 +33,7 @@ const workplaceOptions = [
   { value: "false", label: "On-site Only" },
 ];
 
-export function JobFilters({
-  filters,
-  onChange,
-  onReset,
-  className,
-}: JobFiltersProps) {
+export function JobFilters({ filters, onChange, onReset, className }: JobFiltersProps) {
   return (
     <div className={className}>
       <div className="flex items-center justify-between mb-4">
@@ -83,22 +78,11 @@ export function JobFilters({
         <Select
           label="Workplace"
           options={workplaceOptions}
-          value={
-            filters.is_remote === true
-              ? "true"
-              : filters.is_remote === false
-                ? "false"
-                : ""
-          }
+          value={filters.is_remote === true ? "true" : filters.is_remote === false ? "false" : ""}
           onChange={(val) =>
             onChange({
               ...filters,
-              is_remote:
-                val === "true"
-                  ? true
-                  : val === "false"
-                    ? false
-                    : undefined,
+              is_remote: val === "true" ? true : val === "false" ? false : undefined,
             })
           }
         />

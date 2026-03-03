@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "../api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Job, SwipeAction } from "../../types";
+import { api } from "../api";
 
 export function useDiscoverJobs() {
   return useQuery({
@@ -12,8 +12,7 @@ export function useDiscoverJobs() {
 export function useSwipeAction() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (action: SwipeAction) =>
-      api.post("/api/discover/swipe", action),
+    mutationFn: (action: SwipeAction) => api.post("/api/discover/swipe", action),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["discover"] });
       queryClient.invalidateQueries({ queryKey: ["applications"] });

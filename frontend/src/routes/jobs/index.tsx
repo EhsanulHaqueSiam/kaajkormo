@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { JobCard, JobCardSkeleton } from "../../components/jobs/JobCard";
 import { JobFilters } from "../../components/jobs/JobFilters";
 import { JobSearch } from "../../components/jobs/JobSearch";
@@ -11,8 +11,7 @@ export const Route = createFileRoute("/jobs/")({
   validateSearch: (search: Record<string, unknown>): JobSearchParams => ({
     q: (search.q as string) ?? undefined,
     job_type: search.job_type as JobSearchParams["job_type"],
-    experience_level:
-      search.experience_level as JobSearchParams["experience_level"],
+    experience_level: search.experience_level as JobSearchParams["experience_level"],
     location: search.location as string | undefined,
     is_remote: search.is_remote === "true" ? true : undefined,
     page: Number(search.page) || 1,
@@ -57,27 +56,14 @@ function JobListingPage() {
         <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
           {search.q ? `Results for "${search.q}"` : "Browse Jobs"}
         </h1>
-        <JobSearch
-          initialQuery={search.q ?? ""}
-          onSearch={handleSearchQuery}
-          className="mt-4"
-        />
+        <JobSearch initialQuery={search.q ?? ""} onSearch={handleSearchQuery} className="mt-4" />
       </div>
 
       <div className="lg:flex lg:gap-8">
         {/* Mobile filter toggle */}
         <div className="mb-4 lg:hidden">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <svg
-              className="mr-2 h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+          <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)}>
+            <svg className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -92,10 +78,7 @@ function JobListingPage() {
         {/* Mobile filter drawer */}
         {showFilters && (
           <div className="fixed inset-0 z-50 lg:hidden">
-            <div
-              className="fixed inset-0 bg-black/50"
-              onClick={() => setShowFilters(false)}
-            />
+            <div className="fixed inset-0 bg-black/50" onClick={() => setShowFilters(false)} />
             <div className="fixed inset-y-0 left-0 w-80 bg-white p-6 shadow-xl overflow-y-auto">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-lg font-semibold">Filters</h2>
@@ -103,12 +86,7 @@ function JobListingPage() {
                   onClick={() => setShowFilters(false)}
                   className="rounded-lg p-1 text-gray-400 hover:bg-gray-100"
                 >
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -136,11 +114,7 @@ function JobListingPage() {
         {/* Desktop filters sidebar */}
         <aside className="hidden w-64 shrink-0 lg:block">
           <div className="sticky top-24 rounded-xl border border-gray-200 bg-white p-5">
-            <JobFilters
-              filters={search}
-              onChange={handleFilterChange}
-              onReset={handleReset}
-            />
+            <JobFilters filters={search} onChange={handleFilterChange} onReset={handleReset} />
           </div>
         </aside>
 
@@ -156,9 +130,7 @@ function JobListingPage() {
 
           {isError && (
             <div className="rounded-xl border border-red-200 bg-red-50 p-8 text-center">
-              <p className="text-red-700">
-                Failed to load jobs. Please try again.
-              </p>
+              <p className="text-red-700">Failed to load jobs. Please try again.</p>
               <Button
                 variant="outline"
                 size="sm"
@@ -219,9 +191,7 @@ function JobListingPage() {
           {/* Show empty state when API not connected yet */}
           {!isLoading && !isError && !data && (
             <div className="rounded-xl border border-gray-200 bg-white p-12 text-center">
-              <p className="text-lg font-medium text-gray-900">
-                Connecting to backend...
-              </p>
+              <p className="text-lg font-medium text-gray-900">Connecting to backend...</p>
               <p className="mt-2 text-sm text-gray-500">
                 Job listings will appear once the API is available.
               </p>

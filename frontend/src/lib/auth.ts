@@ -1,7 +1,7 @@
-import { useUser as useClerkUser, useAuth as useClerkAuth } from "@clerk/clerk-react";
+import { useAuth as useClerkAuth, useUser as useClerkUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "./api";
 import type { User } from "../types";
+import { api } from "./api";
 
 const IS_MOCK = import.meta.env.VITE_MOCK_API === "true";
 const HAS_CLERK = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -57,6 +57,7 @@ export function useUser() {
   if (MOCK_MODE) {
     return { user: { firstName: "Arif", lastName: "Rahman", imageUrl: "" }, isLoaded: true };
   }
+  // biome-ignore lint/correctness/useHookAtTopLevel: MOCK_MODE is a module-level constant
   return useClerkUser();
 }
 

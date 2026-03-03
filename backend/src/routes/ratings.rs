@@ -1,11 +1,11 @@
-use axum::extract::{Path, State};
 use axum::Json;
+use axum::extract::{Path, State};
 use uuid::Uuid;
 
+use crate::AppState;
 use crate::error::AppError;
 use crate::middleware::auth::AuthUser;
 use crate::models::candidate_rating::{CandidateRating, CreateCandidateRating};
-use crate::AppState;
 
 pub async fn create_rating(
     State(state): State<AppState>,
@@ -15,7 +15,9 @@ pub async fn create_rating(
     crate::middleware::auth::require_role(&auth_user, "employer")?;
 
     if body.rating < 1 || body.rating > 5 {
-        return Err(AppError::BadRequest("Rating must be between 1 and 5".into()));
+        return Err(AppError::BadRequest(
+            "Rating must be between 1 and 5".into(),
+        ));
     }
 
     // Verify the employer owns the job for this application
@@ -27,13 +29,11 @@ pub async fn create_rating(
     .await?
     .ok_or_else(|| AppError::NotFound("Application not found".into()))?;
 
-    let job = sqlx::query_as::<_, crate::models::job::Job>(
-        "SELECT * FROM jobs WHERE id = $1",
-    )
-    .bind(app.job_id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("Job not found".into()))?;
+    let job = sqlx::query_as::<_, crate::models::job::Job>("SELECT * FROM jobs WHERE id = $1")
+        .bind(app.job_id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Job not found".into()))?;
 
     if job.posted_by != auth_user.user_id {
         return Err(AppError::Forbidden("Not your job posting".into()));

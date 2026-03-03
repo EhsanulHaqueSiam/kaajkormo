@@ -1,4 +1,7 @@
-use axum::{Json, extract::{Path, State}};
+use axum::{
+    Json,
+    extract::{Path, State},
+};
 use uuid::Uuid;
 
 use crate::AppState;
@@ -12,13 +15,11 @@ pub async fn get_own_company(
 ) -> Result<Json<Company>, AppError> {
     crate::middleware::auth::require_role(&auth_user, "employer")?;
 
-    let company = sqlx::query_as::<_, Company>(
-        "SELECT * FROM companies WHERE owner_id = $1",
-    )
-    .bind(auth_user.user_id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("Company not found".into()))?;
+    let company = sqlx::query_as::<_, Company>("SELECT * FROM companies WHERE owner_id = $1")
+        .bind(auth_user.user_id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Company not found".into()))?;
 
     Ok(Json(company))
 }
@@ -31,12 +32,10 @@ pub async fn update_company(
     crate::middleware::auth::require_role(&auth_user, "employer")?;
 
     // Check if company exists, create if not
-    let existing = sqlx::query_as::<_, Company>(
-        "SELECT * FROM companies WHERE owner_id = $1",
-    )
-    .bind(auth_user.user_id)
-    .fetch_optional(&state.db)
-    .await?;
+    let existing = sqlx::query_as::<_, Company>("SELECT * FROM companies WHERE owner_id = $1")
+        .bind(auth_user.user_id)
+        .fetch_optional(&state.db)
+        .await?;
 
     let company = if let Some(_existing) = existing {
         sqlx::query_as::<_, Company>(
@@ -88,13 +87,11 @@ pub async fn get_company(
     State(state): State<AppState>,
     Path(id): Path<Uuid>,
 ) -> Result<Json<Company>, AppError> {
-    let company = sqlx::query_as::<_, Company>(
-        "SELECT * FROM companies WHERE id = $1",
-    )
-    .bind(id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("Company not found".into()))?;
+    let company = sqlx::query_as::<_, Company>("SELECT * FROM companies WHERE id = $1")
+        .bind(id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Company not found".into()))?;
 
     Ok(Json(company))
 }

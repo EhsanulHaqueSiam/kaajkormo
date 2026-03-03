@@ -1,5 +1,9 @@
 #![warn(clippy::pedantic)]
-#![allow(clippy::module_name_repetitions, clippy::missing_errors_doc, clippy::missing_panics_doc)]
+#![allow(
+    clippy::module_name_repetitions,
+    clippy::missing_errors_doc,
+    clippy::missing_panics_doc
+)]
 
 pub mod config;
 pub mod db;

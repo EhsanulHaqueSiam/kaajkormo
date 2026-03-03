@@ -22,15 +22,9 @@ pub async fn save_upload(
         )));
     }
 
-    let original_name = field
-        .file_name()
-        .unwrap_or("upload")
-        .to_string();
+    let original_name = field.file_name().unwrap_or("upload").to_string();
 
-    let ext = original_name
-        .rsplit('.')
-        .next()
-        .unwrap_or("bin");
+    let ext = original_name.rsplit('.').next().unwrap_or("bin");
 
     let bytes = field
         .bytes()

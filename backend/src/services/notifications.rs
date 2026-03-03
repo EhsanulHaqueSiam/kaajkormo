@@ -29,13 +29,12 @@ pub async fn create_notification(
 }
 
 pub async fn mark_read(db: &PgPool, notification_id: Uuid, user_id: Uuid) -> Result<(), AppError> {
-    let result = sqlx::query(
-        "UPDATE notifications SET is_read = true WHERE id = $1 AND user_id = $2",
-    )
-    .bind(notification_id)
-    .bind(user_id)
-    .execute(db)
-    .await?;
+    let result =
+        sqlx::query("UPDATE notifications SET is_read = true WHERE id = $1 AND user_id = $2")
+            .bind(notification_id)
+            .bind(user_id)
+            .execute(db)
+            .await?;
 
     if result.rows_affected() == 0 {
         return Err(AppError::NotFound("Notification not found".into()));

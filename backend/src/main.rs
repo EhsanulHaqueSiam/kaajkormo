@@ -1,16 +1,19 @@
 use std::net::SocketAddr;
 
-use axum::{middleware as axum_mw, routing::{get, patch, post, put}, Router};
+use axum::{
+    Router, middleware as axum_mw,
+    routing::{get, patch, post, put},
+};
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::services::ServeDir;
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::EnvFilter;
 
+use kaajkormo_backend::AppState;
 use kaajkormo_backend::db;
-use kaajkormo_backend::middleware::auth::{auth_middleware, JwksCache};
+use kaajkormo_backend::middleware::auth::{JwksCache, auth_middleware};
 use kaajkormo_backend::routes;
 use kaajkormo_backend::services::email::EmailService;
-use kaajkormo_backend::AppState;
 
 #[tokio::main]
 async fn main() {

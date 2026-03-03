@@ -1,13 +1,13 @@
-use axum::extract::State;
 use axum::Json;
+use axum::extract::State;
 use serde::Deserialize;
 use uuid::Uuid;
 
+use crate::AppState;
 use crate::error::AppError;
 use crate::middleware::auth::AuthUser;
 use crate::models::job::Job;
 use crate::models::swipe_history::SwipeHistory;
-use crate::AppState;
 
 pub async fn discover_jobs(
     State(state): State<AppState>,
@@ -16,12 +16,11 @@ pub async fn discover_jobs(
     crate::middleware::auth::require_role(&auth_user, "candidate")?;
 
     // Get candidate skills for matching
-    let candidate_skills: Option<serde_json::Value> = sqlx::query_scalar(
-        "SELECT skills FROM candidate_profiles WHERE user_id = $1",
-    )
-    .bind(auth_user.user_id)
-    .fetch_optional(&state.db)
-    .await?;
+    let candidate_skills: Option<serde_json::Value> =
+        sqlx::query_scalar("SELECT skills FROM candidate_profiles WHERE user_id = $1")
+            .bind(auth_user.user_id)
+            .fetch_optional(&state.db)
+            .await?;
 
     // Fetch jobs not already swiped on, ordered by creation date
     // If we have candidate skills, we could do JSONB overlap matching,
@@ -67,7 +66,9 @@ pub async fn swipe(
     crate::middleware::auth::require_role(&auth_user, "candidate")?;
 
     if !["apply", "skip", "save"].contains(&body.action.as_str()) {
-        return Err(AppError::BadRequest("Invalid action. Must be: apply, skip, or save".into()));
+        return Err(AppError::BadRequest(
+            "Invalid action. Must be: apply, skip, or save".into(),
+        ));
     }
 
     let swipe = sqlx::query_as::<_, SwipeHistory>(
@@ -144,5 +145,7 @@ pub async fn undo_swipe(
         .execute(&state.db)
         .await?;
 
-    Ok(Json(serde_json::json!({"message": "Swipe undone", "job_id": last_swipe.job_id})))
+    Ok(Json(
+        serde_json::json!({"message": "Swipe undone", "job_id": last_swipe.job_id}),
+    ))
 }

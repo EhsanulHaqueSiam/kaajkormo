@@ -1,10 +1,10 @@
-use axum::extract::{Multipart, State};
 use axum::Json;
+use axum::extract::{Multipart, State};
 
+use crate::AppState;
 use crate::error::AppError;
 use crate::middleware::auth::AuthUser;
 use crate::services::file_upload::save_upload;
-use crate::AppState;
 
 pub async fn upload_resume(
     State(state): State<AppState>,

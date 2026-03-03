@@ -1,12 +1,12 @@
-use axum::extract::{Path, State};
 use axum::Json;
+use axum::extract::{Path, State};
 use uuid::Uuid;
 
+use crate::AppState;
 use crate::error::AppError;
 use crate::middleware::auth::AuthUser;
 use crate::models::application::Application;
 use crate::models::interview::{CreateInterview, Interview, UpdateInterview};
-use crate::AppState;
 
 pub async fn create_interview(
     State(state): State<AppState>,
@@ -16,21 +16,17 @@ pub async fn create_interview(
     crate::middleware::auth::require_role(&auth_user, "employer")?;
 
     // Verify the employer owns the job for this application
-    let app = sqlx::query_as::<_, Application>(
-        "SELECT * FROM applications WHERE id = $1",
-    )
-    .bind(body.application_id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("Application not found".into()))?;
+    let app = sqlx::query_as::<_, Application>("SELECT * FROM applications WHERE id = $1")
+        .bind(body.application_id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Application not found".into()))?;
 
-    let job = sqlx::query_as::<_, crate::models::job::Job>(
-        "SELECT * FROM jobs WHERE id = $1",
-    )
-    .bind(app.job_id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("Job not found".into()))?;
+    let job = sqlx::query_as::<_, crate::models::job::Job>("SELECT * FROM jobs WHERE id = $1")
+        .bind(app.job_id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Job not found".into()))?;
 
     if job.posted_by != auth_user.user_id {
         return Err(AppError::Forbidden("Not your job posting".into()));
@@ -72,12 +68,11 @@ pub async fn create_interview(
     .await?;
 
     // Send email to candidate
-    let candidate_email: Option<String> = sqlx::query_scalar(
-        "SELECT email FROM users WHERE id = $1",
-    )
-    .bind(app.candidate_id)
-    .fetch_optional(&state.db)
-    .await?;
+    let candidate_email: Option<String> =
+        sqlx::query_scalar("SELECT email FROM users WHERE id = $1")
+            .bind(app.candidate_id)
+            .fetch_optional(&state.db)
+            .await?;
 
     if let Some(email) = candidate_email {
         if !email.is_empty() {
@@ -86,7 +81,10 @@ pub async fn create_interview(
                 .send_interview_scheduled(
                     &email,
                     &job.title,
-                    &body.scheduled_at.format("%B %d, %Y at %H:%M UTC").to_string(),
+                    &body
+                        .scheduled_at
+                        .format("%B %d, %Y at %H:%M UTC")
+                        .to_string(),
                     &body.interview_type,
                 )
                 .await;
@@ -135,13 +133,11 @@ pub async fn update_interview(
     crate::middleware::auth::require_role(&auth_user, "employer")?;
 
     // Verify ownership
-    let existing = sqlx::query_as::<_, Interview>(
-        "SELECT * FROM interviews WHERE id = $1",
-    )
-    .bind(id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("Interview not found".into()))?;
+    let existing = sqlx::query_as::<_, Interview>("SELECT * FROM interviews WHERE id = $1")
+        .bind(id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Interview not found".into()))?;
 
     if existing.created_by != auth_user.user_id {
         return Err(AppError::Forbidden("Not your interview".into()));
@@ -181,13 +177,11 @@ pub async fn delete_interview(
 ) -> Result<Json<Interview>, AppError> {
     crate::middleware::auth::require_role(&auth_user, "employer")?;
 
-    let existing = sqlx::query_as::<_, Interview>(
-        "SELECT * FROM interviews WHERE id = $1",
-    )
-    .bind(id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("Interview not found".into()))?;
+    let existing = sqlx::query_as::<_, Interview>("SELECT * FROM interviews WHERE id = $1")
+        .bind(id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Interview not found".into()))?;
 
     if existing.created_by != auth_user.user_id {
         return Err(AppError::Forbidden("Not your interview".into()));

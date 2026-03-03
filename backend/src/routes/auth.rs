@@ -1,6 +1,6 @@
 use axum::{Json, extract::State};
 use serde::Deserialize;
-use serde_json::{json, Value};
+use serde_json::{Value, json};
 
 use crate::AppState;
 use crate::error::AppError;
@@ -12,13 +12,11 @@ pub async fn me(
     State(state): State<AppState>,
     auth_user: AuthUser,
 ) -> Result<Json<UserPublic>, AppError> {
-    let user = sqlx::query_as::<_, crate::models::user::User>(
-        "SELECT * FROM users WHERE id = $1",
-    )
-    .bind(auth_user.user_id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("User not found".into()))?;
+    let user = sqlx::query_as::<_, crate::models::user::User>("SELECT * FROM users WHERE id = $1")
+        .bind(auth_user.user_id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or_else(|| AppError::NotFound("User not found".into()))?;
 
     Ok(Json(UserPublic::from(user)))
 }
@@ -36,10 +34,14 @@ pub async fn set_role(
     Json(body): Json<SetRoleRequest>,
 ) -> Result<Json<Value>, AppError> {
     if !["candidate", "employer"].contains(&body.role.as_str()) {
-        return Err(AppError::BadRequest("Role must be 'candidate' or 'employer'".into()));
+        return Err(AppError::BadRequest(
+            "Role must be 'candidate' or 'employer'".into(),
+        ));
     }
 
     crate::services::auth::set_user_role(&state.db, auth_user.user_id, &body.role).await?;
 
-    Ok(Json(json!({ "message": "Role updated", "role": body.role })))
+    Ok(Json(
+        json!({ "message": "Role updated", "role": body.role }),
+    ))
 }

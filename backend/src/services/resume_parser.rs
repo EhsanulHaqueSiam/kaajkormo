@@ -55,13 +55,55 @@ fn extract_name(text: &str, email: &Option<String>) -> Option<String> {
 
 fn extract_skills(text: &str) -> Vec<String> {
     let known_skills = [
-        "JavaScript", "TypeScript", "Python", "Java", "Rust", "Go", "C++", "C#",
-        "Ruby", "PHP", "Swift", "Kotlin", "React", "Angular", "Vue", "Node.js",
-        "Express", "Django", "Flask", "Spring", "Docker", "Kubernetes", "AWS",
-        "Azure", "GCP", "PostgreSQL", "MySQL", "MongoDB", "Redis", "GraphQL",
-        "REST", "Git", "Linux", "HTML", "CSS", "Tailwind", "Next.js", "Svelte",
-        "Flutter", "React Native", "Machine Learning", "Deep Learning", "TensorFlow",
-        "PyTorch", "SQL", "NoSQL", "CI/CD", "Agile", "Scrum",
+        "JavaScript",
+        "TypeScript",
+        "Python",
+        "Java",
+        "Rust",
+        "Go",
+        "C++",
+        "C#",
+        "Ruby",
+        "PHP",
+        "Swift",
+        "Kotlin",
+        "React",
+        "Angular",
+        "Vue",
+        "Node.js",
+        "Express",
+        "Django",
+        "Flask",
+        "Spring",
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "Azure",
+        "GCP",
+        "PostgreSQL",
+        "MySQL",
+        "MongoDB",
+        "Redis",
+        "GraphQL",
+        "REST",
+        "Git",
+        "Linux",
+        "HTML",
+        "CSS",
+        "Tailwind",
+        "Next.js",
+        "Svelte",
+        "Flutter",
+        "React Native",
+        "Machine Learning",
+        "Deep Learning",
+        "TensorFlow",
+        "PyTorch",
+        "SQL",
+        "NoSQL",
+        "CI/CD",
+        "Agile",
+        "Scrum",
     ];
 
     let text_lower = text.to_lowercase();
@@ -84,9 +126,8 @@ fn extract_education(text: &str) -> Vec<String> {
 }
 
 fn extract_experience(text: &str) -> Vec<String> {
-    let year_pattern = Regex::new(
-        r"(?i)(20\d{2}\s*[-–]\s*(20\d{2}|present|current|now))[^.\n]{0,150}"
-    ).unwrap();
+    let year_pattern =
+        Regex::new(r"(?i)(20\d{2}\s*[-–]\s*(20\d{2}|present|current|now))[^.\n]{0,150}").unwrap();
 
     year_pattern
         .find_iter(text)

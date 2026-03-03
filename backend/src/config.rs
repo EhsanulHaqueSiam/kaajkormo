@@ -15,8 +15,8 @@ pub struct Config {
 
 impl Config {
     pub fn from_env() -> Self {
-        let clerk_issuer =
-            env::var("CLERK_ISSUER").expect("CLERK_ISSUER must be set (e.g. https://your-app.clerk.accounts.dev)");
+        let clerk_issuer = env::var("CLERK_ISSUER")
+            .expect("CLERK_ISSUER must be set (e.g. https://your-app.clerk.accounts.dev)");
         let clerk_jwks_url = format!("{}/.well-known/jwks.json", clerk_issuer);
 
         Self {

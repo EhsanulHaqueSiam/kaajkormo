@@ -1,11 +1,11 @@
-use axum::extract::{Path, State};
 use axum::Json;
+use axum::extract::{Path, State};
 use uuid::Uuid;
 
+use crate::AppState;
 use crate::error::AppError;
 use crate::middleware::auth::AuthUser;
 use crate::models::job_alert::{CreateJobAlert, JobAlert, UpdateJobAlert};
-use crate::AppState;
 
 pub async fn create_alert(
     State(state): State<AppState>,
@@ -47,14 +47,13 @@ pub async fn update_alert(
     Path(id): Path<Uuid>,
     Json(body): Json<UpdateJobAlert>,
 ) -> Result<Json<JobAlert>, AppError> {
-    let existing = sqlx::query_as::<_, JobAlert>(
-        "SELECT * FROM job_alerts WHERE id = $1 AND user_id = $2",
-    )
-    .bind(id)
-    .bind(auth_user.user_id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("Job alert not found".into()))?;
+    let existing =
+        sqlx::query_as::<_, JobAlert>("SELECT * FROM job_alerts WHERE id = $1 AND user_id = $2")
+            .bind(id)
+            .bind(auth_user.user_id)
+            .fetch_optional(&state.db)
+            .await?
+            .ok_or_else(|| AppError::NotFound("Job alert not found".into()))?;
 
     let alert = sqlx::query_as::<_, JobAlert>(
         r#"UPDATE job_alerts SET

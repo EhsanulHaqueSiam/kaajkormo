@@ -1,4 +1,7 @@
-use axum::{Json, extract::{Path, Query, State}};
+use axum::{
+    Json,
+    extract::{Path, Query, State},
+};
 use uuid::Uuid;
 
 use crate::AppState;
@@ -90,9 +93,7 @@ pub async fn get_job(
     Ok(Json(job))
 }
 
-pub async fn featured_jobs(
-    State(state): State<AppState>,
-) -> Result<Json<Vec<Job>>, AppError> {
+pub async fn featured_jobs(State(state): State<AppState>) -> Result<Json<Vec<Job>>, AppError> {
     let jobs = sqlx::query_as::<_, Job>(
         "SELECT * FROM jobs WHERE status = 'active' ORDER BY created_at DESC LIMIT 6",
     )

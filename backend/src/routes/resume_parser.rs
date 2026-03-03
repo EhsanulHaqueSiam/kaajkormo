@@ -1,11 +1,11 @@
-use axum::extract::{Multipart, State};
 use axum::Json;
+use axum::extract::{Multipart, State};
 
+use crate::AppState;
 use crate::error::AppError;
 use crate::middleware::auth::AuthUser;
 use crate::models::resume_parse::ParsedResume;
 use crate::services::resume_parser::parse_pdf;
-use crate::AppState;
 
 pub async fn parse_resume(
     State(state): State<AppState>,
@@ -18,10 +18,7 @@ pub async fn parse_resume(
         .map_err(|e| AppError::BadRequest(format!("Invalid multipart: {e}")))?
         .ok_or_else(|| AppError::BadRequest("No file provided".into()))?;
 
-    let original_filename = field
-        .file_name()
-        .unwrap_or("resume.pdf")
-        .to_string();
+    let original_filename = field.file_name().unwrap_or("resume.pdf").to_string();
 
     let bytes = field
         .bytes()

@@ -1,12 +1,12 @@
-use axum::extract::{Path, State};
 use axum::Json;
+use axum::extract::{Path, State};
 use serde::Serialize;
 use uuid::Uuid;
 
+use crate::AppState;
 use crate::error::AppError;
 use crate::middleware::auth::AuthUser;
 use crate::models::notification::Notification;
-use crate::AppState;
 
 pub async fn list_notifications(
     State(state): State<AppState>,

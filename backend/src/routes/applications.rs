@@ -1,4 +1,7 @@
-use axum::{Json, extract::{Path, State}};
+use axum::{
+    Json,
+    extract::{Path, State},
+};
 use uuid::Uuid;
 
 use crate::AppState;
@@ -59,11 +62,9 @@ pub async fn list_applications(
         .fetch_all(&state.db)
         .await?
     } else {
-        sqlx::query_as::<_, Application>(
-            "SELECT * FROM applications ORDER BY created_at DESC",
-        )
-        .fetch_all(&state.db)
-        .await?
+        sqlx::query_as::<_, Application>("SELECT * FROM applications ORDER BY created_at DESC")
+            .fetch_all(&state.db)
+            .await?
     };
 
     Ok(Json(apps))
@@ -75,13 +76,11 @@ pub async fn update_application(
     Path(id): Path<Uuid>,
     Json(body): Json<UpdateApplicationStatus>,
 ) -> Result<Json<Application>, AppError> {
-    let existing = sqlx::query_as::<_, Application>(
-        "SELECT * FROM applications WHERE id = $1",
-    )
-    .bind(id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("Application not found".into()))?;
+    let existing = sqlx::query_as::<_, Application>("SELECT * FROM applications WHERE id = $1")
+        .bind(id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Application not found".into()))?;
 
     // Candidates can only withdraw their own applications
     if auth_user.role == "candidate" {
@@ -95,13 +94,11 @@ pub async fn update_application(
 
     // Employers can only update applications for their jobs
     if auth_user.role == "employer" {
-        let job = sqlx::query_as::<_, crate::models::job::Job>(
-            "SELECT * FROM jobs WHERE id = $1",
-        )
-        .bind(existing.job_id)
-        .fetch_optional(&state.db)
-        .await?
-        .ok_or_else(|| AppError::NotFound("Job not found".into()))?;
+        let job = sqlx::query_as::<_, crate::models::job::Job>("SELECT * FROM jobs WHERE id = $1")
+            .bind(existing.job_id)
+            .fetch_optional(&state.db)
+            .await?
+            .ok_or_else(|| AppError::NotFound("Job not found".into()))?;
 
         if job.posted_by != auth_user.user_id {
             return Err(AppError::Forbidden("Not your job posting".into()));
@@ -136,7 +133,10 @@ pub async fn update_application(
         existing.candidate_id,
         "status_change",
         &format!("Application status updated to {}", body.status),
-        Some(&format!("Your application status changed from {} to {}", old_status, body.status)),
+        Some(&format!(
+            "Your application status changed from {} to {}",
+            old_status, body.status
+        )),
         Some(serde_json::json!({
             "application_id": id,
             "from_status": old_status,
@@ -152,25 +152,23 @@ pub async fn update_application(
     let job_id = existing.job_id;
     let new_status = body.status.clone();
     tokio::spawn(async move {
-        let candidate_email: Option<String> = sqlx::query_scalar(
-            "SELECT email FROM users WHERE id = $1",
-        )
-        .bind(candidate_id)
-        .fetch_optional(&db)
-        .await
-        .ok()
-        .flatten();
-
-        if let Some(email) = candidate_email {
-            if !email.is_empty() {
-                let job_title: Option<String> = sqlx::query_scalar(
-                    "SELECT title FROM jobs WHERE id = $1",
-                )
-                .bind(job_id)
+        let candidate_email: Option<String> =
+            sqlx::query_scalar("SELECT email FROM users WHERE id = $1")
+                .bind(candidate_id)
                 .fetch_optional(&db)
                 .await
                 .ok()
                 .flatten();
+
+        if let Some(email) = candidate_email {
+            if !email.is_empty() {
+                let job_title: Option<String> =
+                    sqlx::query_scalar("SELECT title FROM jobs WHERE id = $1")
+                        .bind(job_id)
+                        .fetch_optional(&db)
+                        .await
+                        .ok()
+                        .flatten();
 
                 if let Some(title) = job_title {
                     let _ = email_service
@@ -190,26 +188,22 @@ pub async fn get_application_events(
     Path(id): Path<Uuid>,
 ) -> Result<Json<Vec<ApplicationEvent>>, AppError> {
     // Verify the user has access to this application
-    let app = sqlx::query_as::<_, Application>(
-        "SELECT * FROM applications WHERE id = $1",
-    )
-    .bind(id)
-    .fetch_optional(&state.db)
-    .await?
-    .ok_or_else(|| AppError::NotFound("Application not found".into()))?;
+    let app = sqlx::query_as::<_, Application>("SELECT * FROM applications WHERE id = $1")
+        .bind(id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or_else(|| AppError::NotFound("Application not found".into()))?;
 
     if auth_user.role == "candidate" && app.candidate_id != auth_user.user_id {
         return Err(AppError::Forbidden("Not your application".into()));
     }
 
     if auth_user.role == "employer" {
-        let job = sqlx::query_as::<_, crate::models::job::Job>(
-            "SELECT * FROM jobs WHERE id = $1",
-        )
-        .bind(app.job_id)
-        .fetch_optional(&state.db)
-        .await?
-        .ok_or_else(|| AppError::NotFound("Job not found".into()))?;
+        let job = sqlx::query_as::<_, crate::models::job::Job>("SELECT * FROM jobs WHERE id = $1")
+            .bind(app.job_id)
+            .fetch_optional(&state.db)
+            .await?
+            .ok_or_else(|| AppError::NotFound("Job not found".into()))?;
 
         if job.posted_by != auth_user.user_id {
             return Err(AppError::Forbidden("Not your job posting".into()));

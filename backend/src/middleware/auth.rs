@@ -57,6 +57,7 @@ struct JwksResponse {
 }
 
 impl JwksCache {
+    #[must_use]
     pub fn new(jwks_url: String) -> Self {
         Self {
             keys: Arc::new(RwLock::new(Vec::new())),
@@ -144,7 +145,7 @@ where
 }
 
 /// Middleware that injects config and optionally resolves the authenticated user.
-/// If no auth header is present, the request continues without an AuthUser.
+/// If no auth header is present, the request continues without an `AuthUser`.
 /// If an auth header is present but invalid, returns 401.
 pub async fn auth_middleware(
     axum::extract::State(state): axum::extract::State<crate::AppState>,
@@ -158,7 +159,7 @@ pub async fn auth_middleware(
         .headers()
         .get("Authorization")
         .and_then(|v| v.to_str().ok())
-        .map(|s| s.to_string());
+        .map(std::string::ToString::to_string);
 
     if let Some(auth_header) = auth_header {
         let token = auth_header
@@ -170,18 +171,18 @@ pub async fn auth_middleware(
 
         // Upsert user in local DB (get-or-create by clerk_id)
         let user = sqlx::query_as::<_, crate::models::user::User>(
-            r#"INSERT INTO users (clerk_id, email, full_name, role)
+            r"INSERT INTO users (clerk_id, email, full_name, role)
                VALUES ($1, COALESCE($2, ''), COALESCE($3, 'User'), 'candidate')
                ON CONFLICT (clerk_id) DO UPDATE SET
                    email = COALESCE(NULLIF($2, ''), users.email),
                    full_name = COALESCE(NULLIF($3, ''), users.full_name),
                    avatar_url = COALESCE($4, users.avatar_url),
                    updated_at = NOW()
-               RETURNING *"#,
+               RETURNING *",
         )
         .bind(&claims.sub)
-        .bind(&claims.email.unwrap_or_default())
-        .bind(&claims.full_name.unwrap_or_default())
+        .bind(claims.email.unwrap_or_default())
+        .bind(claims.full_name.unwrap_or_default())
         .bind(&claims.image_url)
         .fetch_one(&state.db)
         .await

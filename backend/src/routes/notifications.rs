@@ -13,10 +13,10 @@ pub async fn list_notifications(
     auth_user: AuthUser,
 ) -> Result<Json<Vec<Notification>>, AppError> {
     let notifications = sqlx::query_as::<_, Notification>(
-        r#"SELECT * FROM notifications
+        r"SELECT * FROM notifications
            WHERE user_id = $1
            ORDER BY is_read ASC, created_at DESC
-           LIMIT 50"#,
+           LIMIT 50",
     )
     .bind(auth_user.user_id)
     .fetch_all(&state.db)

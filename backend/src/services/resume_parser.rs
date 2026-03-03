@@ -9,7 +9,7 @@ pub fn parse_pdf(bytes: &[u8]) -> Result<ParsedResume, AppError> {
 
     let email = extract_email(&text);
     let phone = extract_phone(&text);
-    let name = extract_name(&text, &email);
+    let name = extract_name(&text, email.as_ref());
     let skills = extract_skills(&text);
     let education = extract_education(&text);
     let experience = extract_experience(&text);
@@ -34,17 +34,17 @@ fn extract_phone(text: &str) -> Option<String> {
     re.find(text).map(|m| m.as_str().to_string())
 }
 
-fn extract_name(text: &str, email: &Option<String>) -> Option<String> {
+fn extract_name(text: &str, email: Option<&String>) -> Option<String> {
     for line in text.lines() {
         let trimmed = line.trim();
         if trimmed.is_empty() {
             continue;
         }
         // Skip if it looks like an email or phone
-        if let Some(e) = email {
-            if trimmed.contains(e.as_str()) {
-                continue;
-            }
+        if let Some(e) = email
+            && trimmed.contains(e.as_str())
+        {
+            continue;
         }
         if trimmed.len() < 100 && !trimmed.contains('@') {
             return Some(trimmed.to_string());
@@ -110,7 +110,7 @@ fn extract_skills(text: &str) -> Vec<String> {
     known_skills
         .iter()
         .filter(|skill| text_lower.contains(&skill.to_lowercase()))
-        .map(|s| s.to_string())
+        .map(std::string::ToString::to_string)
         .collect()
 }
 

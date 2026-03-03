@@ -13,9 +13,9 @@ pub async fn create_notification(
     data: Option<serde_json::Value>,
 ) -> Result<Notification, AppError> {
     let notification = sqlx::query_as::<_, Notification>(
-        r#"INSERT INTO notifications (user_id, notification_type, title, body, data)
+        r"INSERT INTO notifications (user_id, notification_type, title, body, data)
            VALUES ($1, $2, $3, $4, $5)
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(user_id)
     .bind(notification_type)

@@ -33,9 +33,9 @@ pub async fn create_interview(
     }
 
     let interview = sqlx::query_as::<_, Interview>(
-        r#"INSERT INTO interviews (application_id, scheduled_at, duration_minutes, interview_type, location, meeting_url, notes, created_by)
+        r"INSERT INTO interviews (application_id, scheduled_at, duration_minutes, interview_type, location, meeting_url, notes, created_by)
            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(body.application_id)
     .bind(body.scheduled_at)
@@ -74,21 +74,21 @@ pub async fn create_interview(
             .fetch_optional(&state.db)
             .await?;
 
-    if let Some(email) = candidate_email {
-        if !email.is_empty() {
-            let _ = state
-                .email_service
-                .send_interview_scheduled(
-                    &email,
-                    &job.title,
-                    &body
-                        .scheduled_at
-                        .format("%B %d, %Y at %H:%M UTC")
-                        .to_string(),
-                    &body.interview_type,
-                )
-                .await;
-        }
+    if let Some(email) = candidate_email
+        && !email.is_empty()
+    {
+        let _ = state
+            .email_service
+            .send_interview_scheduled(
+                &email,
+                &job.title,
+                &body
+                    .scheduled_at
+                    .format("%B %d, %Y at %H:%M UTC")
+                    .to_string(),
+                &body.interview_type,
+            )
+            .await;
     }
 
     Ok(Json(interview))
@@ -100,21 +100,21 @@ pub async fn list_interviews(
 ) -> Result<Json<Vec<Interview>>, AppError> {
     let interviews = if auth_user.role == "employer" {
         sqlx::query_as::<_, Interview>(
-            r#"SELECT i.* FROM interviews i
+            r"SELECT i.* FROM interviews i
                JOIN applications a ON i.application_id = a.id
                JOIN jobs j ON a.job_id = j.id
                WHERE j.posted_by = $1
-               ORDER BY i.scheduled_at ASC"#,
+               ORDER BY i.scheduled_at ASC",
         )
         .bind(auth_user.user_id)
         .fetch_all(&state.db)
         .await?
     } else {
         sqlx::query_as::<_, Interview>(
-            r#"SELECT i.* FROM interviews i
+            r"SELECT i.* FROM interviews i
                JOIN applications a ON i.application_id = a.id
                WHERE a.candidate_id = $1
-               ORDER BY i.scheduled_at ASC"#,
+               ORDER BY i.scheduled_at ASC",
         )
         .bind(auth_user.user_id)
         .fetch_all(&state.db)
@@ -144,7 +144,7 @@ pub async fn update_interview(
     }
 
     let interview = sqlx::query_as::<_, Interview>(
-        r#"UPDATE interviews SET
+        r"UPDATE interviews SET
                scheduled_at = COALESCE($1, scheduled_at),
                duration_minutes = COALESCE($2, duration_minutes),
                interview_type = COALESCE($3, interview_type),
@@ -154,7 +154,7 @@ pub async fn update_interview(
                status = COALESCE($7, status),
                updated_at = NOW()
            WHERE id = $8
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(body.scheduled_at)
     .bind(body.duration_minutes)

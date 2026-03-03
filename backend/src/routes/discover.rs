@@ -23,31 +23,17 @@ pub async fn discover_jobs(
             .await?;
 
     // Fetch jobs not already swiped on, ordered by creation date
-    // If we have candidate skills, we could do JSONB overlap matching,
-    // but for simplicity we order by recency
-    let jobs = if candidate_skills.is_some() {
-        sqlx::query_as::<_, Job>(
-            r#"SELECT j.* FROM jobs j
-               WHERE j.status = 'active'
-               AND j.id NOT IN (SELECT job_id FROM swipe_history WHERE user_id = $1)
-               ORDER BY j.created_at DESC
-               LIMIT 20"#,
-        )
-        .bind(auth_user.user_id)
-        .fetch_all(&state.db)
-        .await?
-    } else {
-        sqlx::query_as::<_, Job>(
-            r#"SELECT j.* FROM jobs j
-               WHERE j.status = 'active'
-               AND j.id NOT IN (SELECT job_id FROM swipe_history WHERE user_id = $1)
-               ORDER BY j.created_at DESC
-               LIMIT 20"#,
-        )
-        .bind(auth_user.user_id)
-        .fetch_all(&state.db)
-        .await?
-    };
+    drop(candidate_skills); // reserved for future JSONB overlap matching
+    let jobs = sqlx::query_as::<_, Job>(
+        r"SELECT j.* FROM jobs j
+           WHERE j.status = 'active'
+           AND j.id NOT IN (SELECT job_id FROM swipe_history WHERE user_id = $1)
+           ORDER BY j.created_at DESC
+           LIMIT 20",
+    )
+    .bind(auth_user.user_id)
+    .fetch_all(&state.db)
+    .await?;
 
     Ok(Json(jobs))
 }
@@ -72,10 +58,10 @@ pub async fn swipe(
     }
 
     let swipe = sqlx::query_as::<_, SwipeHistory>(
-        r#"INSERT INTO swipe_history (user_id, job_id, action)
+        r"INSERT INTO swipe_history (user_id, job_id, action)
            VALUES ($1, $2, $3)
            ON CONFLICT (user_id, job_id) DO UPDATE SET action = $3, created_at = NOW()
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(auth_user.user_id)
     .bind(body.job_id)
@@ -86,9 +72,9 @@ pub async fn swipe(
     // Side effects based on action
     if body.action == "apply" {
         sqlx::query(
-            r#"INSERT INTO applications (job_id, candidate_id)
+            r"INSERT INTO applications (job_id, candidate_id)
                VALUES ($1, $2)
-               ON CONFLICT (job_id, candidate_id) DO NOTHING"#,
+               ON CONFLICT (job_id, candidate_id) DO NOTHING",
         )
         .bind(body.job_id)
         .bind(auth_user.user_id)
@@ -96,9 +82,9 @@ pub async fn swipe(
         .await?;
     } else if body.action == "save" {
         sqlx::query(
-            r#"INSERT INTO saved_jobs (user_id, job_id)
+            r"INSERT INTO saved_jobs (user_id, job_id)
                VALUES ($1, $2)
-               ON CONFLICT (user_id, job_id) DO NOTHING"#,
+               ON CONFLICT (user_id, job_id) DO NOTHING",
         )
         .bind(auth_user.user_id)
         .bind(body.job_id)

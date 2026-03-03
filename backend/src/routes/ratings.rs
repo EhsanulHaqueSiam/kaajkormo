@@ -40,13 +40,13 @@ pub async fn create_rating(
     }
 
     let rating = sqlx::query_as::<_, CandidateRating>(
-        r#"INSERT INTO candidate_ratings (application_id, employer_id, rating, notes)
+        r"INSERT INTO candidate_ratings (application_id, employer_id, rating, notes)
            VALUES ($1, $2, $3, $4)
            ON CONFLICT (application_id, employer_id) DO UPDATE SET
                rating = $3,
                notes = COALESCE($4, candidate_ratings.notes),
                updated_at = NOW()
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(body.application_id)
     .bind(auth_user.user_id)

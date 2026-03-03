@@ -39,10 +39,10 @@ pub async fn save_job(
     Path(job_id): Path<Uuid>,
 ) -> Result<Json<SavedJob>, AppError> {
     let saved = sqlx::query_as::<_, SavedJob>(
-        r#"INSERT INTO saved_jobs (user_id, job_id)
+        r"INSERT INTO saved_jobs (user_id, job_id)
            VALUES ($1, $2)
            ON CONFLICT (user_id, job_id) DO UPDATE SET user_id = $1
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(auth_user.user_id)
     .bind(job_id)

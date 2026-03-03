@@ -13,9 +13,9 @@ pub async fn create_alert(
     Json(body): Json<CreateJobAlert>,
 ) -> Result<Json<JobAlert>, AppError> {
     let alert = sqlx::query_as::<_, JobAlert>(
-        r#"INSERT INTO job_alerts (user_id, name, criteria, frequency)
+        r"INSERT INTO job_alerts (user_id, name, criteria, frequency)
            VALUES ($1, $2, $3, $4)
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(auth_user.user_id)
     .bind(&body.name)
@@ -56,14 +56,14 @@ pub async fn update_alert(
             .ok_or_else(|| AppError::NotFound("Job alert not found".into()))?;
 
     let alert = sqlx::query_as::<_, JobAlert>(
-        r#"UPDATE job_alerts SET
+        r"UPDATE job_alerts SET
                name = COALESCE($1, name),
                criteria = COALESCE($2, criteria),
                frequency = COALESCE($3, frequency),
                is_active = COALESCE($4, is_active),
                updated_at = NOW()
            WHERE id = $5
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(&body.name)
     .bind(&body.criteria)

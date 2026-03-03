@@ -9,6 +9,7 @@ pub struct EmailService {
 }
 
 impl EmailService {
+    #[must_use]
     pub fn new(api_key: String) -> Self {
         Self {
             client: reqwest::Client::new(),
@@ -53,8 +54,8 @@ impl EmailService {
 
     pub async fn send_welcome(&self, to: &str, name: &str) -> Result<(), AppError> {
         let html = format!(
-            r#"<h2>Welcome to KaajKormo, {name}!</h2>
-            <p>Your account has been created successfully. Start exploring jobs or posting opportunities today.</p>"#
+            r"<h2>Welcome to KaajKormo, {name}!</h2>
+            <p>Your account has been created successfully. Start exploring jobs or posting opportunities today.</p>"
         );
         self.send_email(to, "Welcome to KaajKormo", &html).await
     }
@@ -66,9 +67,9 @@ impl EmailService {
         candidate_name: &str,
     ) -> Result<(), AppError> {
         let html = format!(
-            r#"<h2>New Application Received</h2>
+            r"<h2>New Application Received</h2>
             <p><strong>{candidate_name}</strong> has applied for the position: <strong>{job_title}</strong>.</p>
-            <p>Log in to review the application.</p>"#
+            <p>Log in to review the application.</p>"
         );
         self.send_email(to, &format!("New application for {job_title}"), &html)
             .await
@@ -81,9 +82,9 @@ impl EmailService {
         new_status: &str,
     ) -> Result<(), AppError> {
         let html = format!(
-            r#"<h2>Application Status Updated</h2>
+            r"<h2>Application Status Updated</h2>
             <p>Your application for <strong>{job_title}</strong> has been updated to: <strong>{new_status}</strong>.</p>
-            <p>Log in to view details.</p>"#
+            <p>Log in to view details.</p>"
         );
         self.send_email(to, &format!("Application update: {job_title}"), &html)
             .await
@@ -97,13 +98,13 @@ impl EmailService {
         interview_type: &str,
     ) -> Result<(), AppError> {
         let html = format!(
-            r#"<h2>Interview Scheduled</h2>
+            r"<h2>Interview Scheduled</h2>
             <p>An interview has been scheduled for the position: <strong>{job_title}</strong>.</p>
             <ul>
                 <li><strong>Type:</strong> {interview_type}</li>
                 <li><strong>When:</strong> {scheduled_at}</li>
             </ul>
-            <p>Log in to view details and prepare.</p>"#
+            <p>Log in to view details and prepare.</p>"
         );
         self.send_email(to, &format!("Interview scheduled: {job_title}"), &html)
             .await

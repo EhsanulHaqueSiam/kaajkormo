@@ -32,8 +32,8 @@ pub async fn parse_resume(
         .map_err(|e| AppError::Internal(format!("Failed to serialize: {e}")))?;
 
     sqlx::query(
-        r#"INSERT INTO resume_parses (user_id, original_filename, file_url, parsed_data)
-           VALUES ($1, $2, $3, $4)"#,
+        r"INSERT INTO resume_parses (user_id, original_filename, file_url, parsed_data)
+           VALUES ($1, $2, $3, $4)",
     )
     .bind(auth_user.user_id)
     .bind(&original_filename)

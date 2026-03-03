@@ -26,7 +26,7 @@ pub async fn update_profile(
     Json(body): Json<UpdateCandidateProfile>,
 ) -> Result<Json<CandidateProfile>, AppError> {
     let profile = sqlx::query_as::<_, CandidateProfile>(
-        r#"INSERT INTO candidate_profiles (
+        r"INSERT INTO candidate_profiles (
                user_id, title, bio, skills, experience_years,
                education, resume_url, location, expected_salary_min, expected_salary_max,
                is_open_to_work, linkedin_url, github_url, portfolio_url, stackoverflow_url,
@@ -55,7 +55,7 @@ pub async fn update_profile(
                personal_website = COALESCE($20, candidate_profiles.personal_website),
                photo_url = COALESCE($21, candidate_profiles.photo_url),
                updated_at = NOW()
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(auth_user.user_id)
     .bind(&body.title)

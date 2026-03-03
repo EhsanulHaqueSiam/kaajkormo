@@ -31,7 +31,7 @@ pub async fn list_jobs(
     let q_pattern = filter.q.as_deref().map(|q| format!("%{q}%"));
 
     let jobs = sqlx::query_as::<_, Job>(
-        r#"SELECT * FROM jobs
+        r"SELECT * FROM jobs
            WHERE status = 'active'
              AND ($1::text IS NULL OR title ILIKE $1 OR description ILIKE $1)
              AND ($2::text IS NULL OR location ILIKE $2)
@@ -40,7 +40,7 @@ pub async fn list_jobs(
              AND ($5::text IS NULL OR job_type = $5)
              AND ($6::text IS NULL OR experience_level = $6)
            ORDER BY created_at DESC
-           LIMIT $7 OFFSET $8"#,
+           LIMIT $7 OFFSET $8",
     )
     .bind(&q_pattern)
     .bind(&filter.location)
@@ -54,14 +54,14 @@ pub async fn list_jobs(
     .await?;
 
     let total: (i64,) = sqlx::query_as(
-        r#"SELECT COUNT(*) FROM jobs
+        r"SELECT COUNT(*) FROM jobs
            WHERE status = 'active'
              AND ($1::text IS NULL OR title ILIKE $1 OR description ILIKE $1)
              AND ($2::text IS NULL OR location ILIKE $2)
              AND ($3::int IS NULL OR salary_min >= $3)
              AND ($4::int IS NULL OR salary_max <= $4)
              AND ($5::text IS NULL OR job_type = $5)
-             AND ($6::text IS NULL OR experience_level = $6)"#,
+             AND ($6::text IS NULL OR experience_level = $6)",
     )
     .bind(&q_pattern)
     .bind(&filter.location)
@@ -121,10 +121,10 @@ pub async fn create_job(
     let _slug = slugify(&body.title);
 
     let job = sqlx::query_as::<_, Job>(
-        r#"INSERT INTO jobs (company_id, posted_by, title, description, requirements, skills,
+        r"INSERT INTO jobs (company_id, posted_by, title, description, requirements, skills,
             job_type, experience_level, salary_min, salary_max, salary_currency, location, is_remote, deadline)
            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(company.id)
     .bind(auth_user.user_id)
@@ -165,7 +165,7 @@ pub async fn update_job(
     }
 
     let job = sqlx::query_as::<_, Job>(
-        r#"UPDATE jobs SET
+        r"UPDATE jobs SET
             title = COALESCE($1, title),
             description = COALESCE($2, description),
             requirements = COALESCE($3, requirements),
@@ -181,7 +181,7 @@ pub async fn update_job(
             deadline = COALESCE($13, deadline),
             updated_at = NOW()
            WHERE id = $14
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(&body.title)
     .bind(&body.description)

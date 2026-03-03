@@ -39,7 +39,7 @@ pub async fn update_company(
 
     let company = if let Some(_existing) = existing {
         sqlx::query_as::<_, Company>(
-            r#"UPDATE companies SET
+            r"UPDATE companies SET
                 name = COALESCE($1, name),
                 description = COALESCE($2, description),
                 logo_url = COALESCE($3, logo_url),
@@ -49,7 +49,7 @@ pub async fn update_company(
                 location = COALESCE($7, location),
                 updated_at = NOW()
                WHERE owner_id = $8
-               RETURNING *"#,
+               RETURNING *",
         )
         .bind(&body.name)
         .bind(&body.description)
@@ -64,9 +64,9 @@ pub async fn update_company(
     } else {
         let name = body.name.as_deref().unwrap_or("My Company");
         sqlx::query_as::<_, Company>(
-            r#"INSERT INTO companies (owner_id, name, description, logo_url, website, industry, company_size, location)
+            r"INSERT INTO companies (owner_id, name, description, logo_url, website, industry, company_size, location)
                VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-               RETURNING *"#,
+               RETURNING *",
         )
         .bind(auth_user.user_id)
         .bind(name)

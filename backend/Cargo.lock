@@ -982,28 +982,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "92ecc6618181def0457392ccd0ee51198e065e016d1d527a7ac1b6dc7c1f09d2"
 
 [[package]]
-name = "jobseeker-backend"
-version = "0.1.0"
-dependencies = [
- "axum",
- "chrono",
- "dotenvy",
- "jsonwebtoken",
- "pdf-extract",
- "rand",
- "regex",
- "reqwest",
- "serde",
- "serde_json",
- "sqlx",
- "tokio",
- "tower-http",
- "tracing",
- "tracing-subscriber",
- "uuid",
-]
-
-[[package]]
 name = "js-sys"
 version = "0.3.91"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1026,6 +1004,28 @@ dependencies = [
  "serde",
  "serde_json",
  "simple_asn1",
+]
+
+[[package]]
+name = "kaajkormo-backend"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "chrono",
+ "dotenvy",
+ "jsonwebtoken",
+ "pdf-extract",
+ "rand",
+ "regex",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tokio",
+ "tower-http",
+ "tracing",
+ "tracing-subscriber",
+ "uuid",
 ]
 
 [[package]]

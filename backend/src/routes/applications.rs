@@ -18,9 +18,9 @@ pub async fn create_application(
     crate::middleware::auth::require_role(&auth_user, "candidate")?;
 
     let app = sqlx::query_as::<_, Application>(
-        r#"INSERT INTO applications (job_id, candidate_id, cover_letter, resume_url)
+        r"INSERT INTO applications (job_id, candidate_id, cover_letter, resume_url)
            VALUES ($1, $2, $3, $4)
-           RETURNING *"#,
+           RETURNING *",
     )
     .bind(body.job_id)
     .bind(auth_user.user_id)
@@ -53,10 +53,10 @@ pub async fn list_applications(
         .await?
     } else if auth_user.role == "employer" {
         sqlx::query_as::<_, Application>(
-            r#"SELECT a.* FROM applications a
+            r"SELECT a.* FROM applications a
                JOIN jobs j ON a.job_id = j.id
                WHERE j.posted_by = $1
-               ORDER BY a.created_at DESC"#,
+               ORDER BY a.created_at DESC",
         )
         .bind(auth_user.user_id)
         .fetch_all(&state.db)
@@ -117,8 +117,8 @@ pub async fn update_application(
 
     // Record the status change event
     sqlx::query(
-        r#"INSERT INTO application_events (application_id, from_status, to_status, actor_id)
-           VALUES ($1, $2, $3, $4)"#,
+        r"INSERT INTO application_events (application_id, from_status, to_status, actor_id)
+           VALUES ($1, $2, $3, $4)",
     )
     .bind(id)
     .bind(&old_status)
@@ -160,21 +160,21 @@ pub async fn update_application(
                 .ok()
                 .flatten();
 
-        if let Some(email) = candidate_email {
-            if !email.is_empty() {
-                let job_title: Option<String> =
-                    sqlx::query_scalar("SELECT title FROM jobs WHERE id = $1")
-                        .bind(job_id)
-                        .fetch_optional(&db)
-                        .await
-                        .ok()
-                        .flatten();
+        if let Some(email) = candidate_email
+            && !email.is_empty()
+        {
+            let job_title: Option<String> =
+                sqlx::query_scalar("SELECT title FROM jobs WHERE id = $1")
+                    .bind(job_id)
+                    .fetch_optional(&db)
+                    .await
+                    .ok()
+                    .flatten();
 
-                if let Some(title) = job_title {
-                    let _ = email_service
-                        .send_status_update(&email, &title, &new_status)
-                        .await;
-                }
+            if let Some(title) = job_title {
+                let _ = email_service
+                    .send_status_update(&email, &title, &new_status)
+                    .await;
             }
         }
     });

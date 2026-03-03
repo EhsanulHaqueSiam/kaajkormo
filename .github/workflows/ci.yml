@@ -54,8 +54,8 @@ jobs:
         with:
           workspaces: backend
 
-      - name: Ensure rustfmt is available
-        run: rustup component add rustfmt
+      - name: Ensure rustfmt and clippy are available
+        run: rustup component add rustfmt clippy
 
       - name: Format check
         run: cargo fmt --check

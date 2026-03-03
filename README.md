@@ -43,7 +43,9 @@ KaajKormo reimagines job hunting for the Bangladeshi market — swipe right to i
 | **Auth** | Clerk (JWT via JWKS) |
 | **Email** | Resend API |
 | **Linting** | Biome (frontend), Clippy + Rustfmt (backend) |
+| **Dev Tooling** | [mise](https://mise.jdx.dev/) (task runner + version manager) |
 | **CI/CD** | GitHub Actions |
+| **Deploy** | Docker Compose, Nginx, systemd |
 | **Icons** | Lucide React |
 | **Animations** | Framer Motion |
 
@@ -81,9 +83,16 @@ kaajkormo/
 │   ├── migrations/           # 8 PostgreSQL migrations
 │   ├── rustfmt.toml          # Rust formatter config
 │   └── clippy.toml           # Clippy linter config
-├── .github/workflows/ci.yml  # CI pipeline
-├── docker-compose.yml         # Local PostgreSQL
-├── Makefile                   # Dev commands
+├── deploy/                    # Deployment scripts & configs
+│   ├── vps-deploy.sh          # One-command VPS deploy
+│   ├── setup-vps.sh           # Fresh VPS provisioning
+│   ├── nginx-ssl.conf         # Production Nginx + SSL
+│   └── kaajkormo.service      # systemd service file
+├── .github/workflows/ci.yml   # CI pipeline
+├── docker-compose.yml          # Local PostgreSQL (dev)
+├── docker-compose.prod.yml     # Full production stack
+├── mise.toml                   # Dev tooling (tasks + tool versions)
+├── DEPLOY.md                   # Deployment guide
 └── README.md
 ```
 
@@ -147,16 +156,19 @@ kaajkormo/
 ## Getting Started
 
 ### Prerequisites
-- [Bun](https://bun.sh) (v1.0+)
-- [Rust](https://rustup.rs) (stable)
-- [PostgreSQL](https://www.postgresql.org/) 15+ (or Docker)
-- [Clerk](https://clerk.com) account (for auth)
+- [mise](https://mise.jdx.dev/) — manages Rust, Bun, Node versions + runs all tasks
+- [Docker](https://www.docker.com/) — for PostgreSQL (and production deployment)
+- [Clerk](https://clerk.com) account — for auth
 
-### 1. Clone and setup
+### 1. Install mise and clone
 ```bash
-git clone https://github.com/YOUR_USERNAME/kaajkormo.git
+# Install mise (if not already installed)
+curl https://mise.jdx.dev/install.sh | sh
+
+git clone https://github.com/EhsanulHaqueSiam/kaajkormo.git
 cd kaajkormo
-make setup
+mise install       # Installs Rust 1.86, Bun 1.3, Node 22
+mise run setup     # Installs deps, builds, configures hooks
 ```
 
 ### 2. Configure environment
@@ -168,15 +180,15 @@ cp backend/.env.example backend/.env
 
 ### 3. Start database
 ```bash
-make db-up          # Start PostgreSQL via Docker
-make db-migrate     # Run migrations
+mise run db:up          # Start PostgreSQL via Docker
+mise run db:migrate     # Run migrations
 ```
 
 ### 4. Run development
 ```bash
-make dev            # Start both frontend + backend
+mise run dev            # Start both frontend + backend
 # OR
-make dev-mock       # Frontend only with mock API data (no backend needed)
+mise run dev:mock       # Frontend only with mock API data (no backend needed)
 ```
 
 ### 5. Open
@@ -188,16 +200,45 @@ make dev-mock       # Frontend only with mock API data (no backend needed)
 
 ## Development Commands
 
+All commands use `mise run <task>`. Run `mise tasks` to see the full list.
+
 ```bash
-make dev            # Start frontend + backend
-make dev-mock       # Frontend with mock API (no backend)
-make build          # Build everything for production
-make lint           # Lint frontend (Biome) + backend (Clippy)
-make format         # Format frontend + backend
-make check          # Full CI check locally
-make db-up          # Start PostgreSQL
-make db-migrate     # Run migrations
-make clean          # Clean build artifacts
+# Development
+mise run dev              # Start frontend + backend in parallel
+mise run dev:mock         # Frontend with mock API (no backend)
+mise run dev:frontend     # Frontend only
+mise run dev:backend      # Backend only
+
+# Build
+mise run build            # Build everything for production
+mise run build:frontend   # Build frontend SPA
+mise run build:backend    # Build backend release binary
+
+# Quality
+mise run lint             # Lint frontend (Biome) + backend (Clippy)
+mise run format           # Auto-format everything
+mise run check            # Full CI check locally
+mise run fix              # Auto-fix all lint/format issues
+
+# Database
+mise run db:up            # Start PostgreSQL via Docker
+mise run db:migrate       # Run migrations
+mise run db:reset         # Drop + recreate database
+mise run db:status        # Show migration status
+
+# Docker (Production)
+mise run docker:build     # Build production images
+mise run docker:up        # Start all production services
+mise run docker:down      # Stop production services
+mise run docker:logs      # Tail logs
+mise run docker:restart   # Rebuild and restart
+
+# Deploy
+mise run deploy:vps       # Deploy to VPS via SSH
+
+# Utilities
+mise run clean            # Clean build artifacts
+mise run clean:all        # Deep clean (removes node_modules too)
 ```
 
 ---

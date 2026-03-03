@@ -1,0 +1,186 @@
+# KaajKormo Development Configuration
+# https://mise.jdx.dev/
+
+min_version = "2024.12.0"
+
+[tools]
+rust = "1.86"
+bun = "1.3"
+node = "22"
+
+[env]
+RUST_LOG = "info"
+UPLOAD_DIR = "./backend/uploads"
+
+# ─── Setup ────────────────────────────────────────────────────────
+
+[tasks.setup]
+description = "Initial project setup (install deps, build, configure hooks)"
+run = [
+  "cd frontend && bun install",
+  "cd backend && cargo build",
+  "mkdir -p backend/uploads",
+  "cp hooks/pre-commit .git/hooks/pre-commit 2>/dev/null || true",
+  "chmod +x .git/hooks/pre-commit 2>/dev/null || true",
+  "echo '✓ Setup complete. Copy .env.example files to .env and fill in values.'",
+]
+
+# ─── Development ──────────────────────────────────────────────────
+
+[tasks.dev]
+description = "Start frontend + backend dev servers in parallel"
+run = """
+#!/usr/bin/env bash
+trap 'kill 0' EXIT
+(cd frontend && bun run dev) &
+(cd backend && cargo run) &
+wait
+"""
+
+[tasks."dev:frontend"]
+description = "Start frontend dev server only"
+run = "cd frontend && bun run dev"
+
+[tasks."dev:backend"]
+description = "Start backend dev server only"
+run = "cd backend && cargo run"
+
+[tasks."dev:mock"]
+description = "Start frontend with mock API (no backend needed)"
+run = "cd frontend && VITE_MOCK_API=true bun run dev"
+
+# ─── Build ────────────────────────────────────────────────────────
+
+[tasks.build]
+description = "Build everything for production"
+depends = ["build:frontend", "build:backend"]
+
+[tasks."build:frontend"]
+description = "Build frontend SPA"
+run = "cd frontend && bun run build"
+
+[tasks."build:backend"]
+description = "Build backend release binary"
+run = "cd backend && cargo build --release"
+
+# ─── Quality ──────────────────────────────────────────────────────
+
+[tasks.lint]
+description = "Lint everything"
+depends = ["lint:frontend", "lint:backend"]
+
+[tasks."lint:frontend"]
+description = "Lint frontend with Biome"
+run = "cd frontend && bun run lint"
+
+[tasks."lint:backend"]
+description = "Lint backend with Clippy"
+run = "cd backend && cargo clippy -- -D warnings"
+
+[tasks.format]
+description = "Auto-format everything"
+depends = ["format:frontend", "format:backend"]
+
+[tasks."format:frontend"]
+description = "Format frontend with Biome"
+run = "cd frontend && bun run format"
+
+[tasks."format:backend"]
+description = "Format backend with Rustfmt"
+run = "cd backend && cargo fmt"
+
+[tasks.check]
+description = "Full CI check locally (lint + typecheck + build)"
+depends = ["check:frontend", "check:backend"]
+
+[tasks."check:frontend"]
+description = "Full frontend check (biome + tsc)"
+run = "cd frontend && bun run check && bunx tsc --noEmit"
+
+[tasks."check:backend"]
+description = "Full backend check (fmt + clippy + compile)"
+run = "cd backend && cargo fmt --check && cargo clippy -- -D warnings && cargo check"
+
+[tasks.fix]
+description = "Auto-fix all lint and format issues"
+depends = ["fix:frontend", "fix:backend"]
+
+[tasks."fix:frontend"]
+description = "Auto-fix frontend issues"
+run = "cd frontend && bun run lint:fix"
+
+[tasks."fix:backend"]
+description = "Auto-fix backend formatting"
+run = "cd backend && cargo fmt"
+
+# ─── Database ─────────────────────────────────────────────────────
+
+[tasks."db:up"]
+description = "Start PostgreSQL via Docker"
+run = "docker compose up -d postgres"
+
+[tasks."db:down"]
+description = "Stop PostgreSQL"
+run = "docker compose down"
+
+[tasks."db:migrate"]
+description = "Run database migrations"
+run = "cd backend && sqlx migrate run"
+
+[tasks."db:reset"]
+description = "Reset database (drop + recreate + migrate)"
+run = "cd backend && sqlx database reset -y"
+
+[tasks."db:status"]
+description = "Show migration status"
+run = "cd backend && sqlx migrate info"
+
+# ─── Docker (Production) ─────────────────────────────────────────
+
+[tasks."docker:build"]
+description = "Build production Docker images"
+run = "docker compose -f docker-compose.prod.yml build"
+
+[tasks."docker:up"]
+description = "Start all production services"
+run = "docker compose -f docker-compose.prod.yml up -d"
+
+[tasks."docker:down"]
+description = "Stop all production services"
+run = "docker compose -f docker-compose.prod.yml down"
+
+[tasks."docker:logs"]
+description = "Tail production logs"
+run = "docker compose -f docker-compose.prod.yml logs -f"
+
+[tasks."docker:restart"]
+description = "Rebuild and restart production services"
+run = "docker compose -f docker-compose.prod.yml up -d --build"
+
+[tasks."docker:ps"]
+description = "Show running production containers"
+run = "docker compose -f docker-compose.prod.yml ps"
+
+# ─── Deploy ───────────────────────────────────────────────────────
+
+[tasks."deploy:vps"]
+description = "Deploy to VPS via SSH (set DEPLOY_HOST, DEPLOY_USER)"
+run = "bash deploy/vps-deploy.sh"
+
+# ─── Utilities ────────────────────────────────────────────────────
+
+[tasks.clean]
+description = "Clean all build artifacts"
+run = [
+  "rm -rf frontend/dist frontend/node_modules/.vite",
+  "cd backend && cargo clean",
+  "echo '✓ Cleaned'",
+]
+
+[tasks."clean:all"]
+description = "Deep clean (including node_modules and cargo cache)"
+run = [
+  "rm -rf frontend/dist frontend/node_modules",
+  "cd backend && cargo clean",
+  "echo '✓ Deep cleaned. Run `mise run setup` to reinstall.'",
+]

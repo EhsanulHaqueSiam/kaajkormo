@@ -1,5 +1,6 @@
 #!/bin/sh
 # Pre-commit hook: lint staged files
+# Relies on mise for tool versions
 
 echo "Running pre-commit checks..."
 
@@ -7,9 +8,9 @@ echo "Running pre-commit checks..."
 FRONTEND_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '^frontend/src/' | grep -E '\.(ts|tsx|js|jsx)$')
 if [ -n "$FRONTEND_FILES" ]; then
     echo "Checking frontend files..."
-    cd frontend && bunx biome check --no-errors-on-unmatched $FRONTEND_FILES
+    cd frontend && mise exec -- bunx biome check --no-errors-on-unmatched $FRONTEND_FILES
     if [ $? -ne 0 ]; then
-        echo "Frontend lint failed. Fix errors before committing."
+        echo "Frontend lint failed. Run 'mise run fix:frontend' to auto-fix."
         exit 1
     fi
     cd ..
@@ -19,9 +20,9 @@ fi
 BACKEND_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '^backend/src/' | grep '\.rs$')
 if [ -n "$BACKEND_FILES" ]; then
     echo "Checking backend formatting..."
-    cd backend && cargo fmt --check
+    cd backend && mise exec -- cargo fmt --check
     if [ $? -ne 0 ]; then
-        echo "Backend format check failed. Run 'cargo fmt' before committing."
+        echo "Backend format check failed. Run 'mise run format:backend' to fix."
         exit 1
     fi
     cd ..

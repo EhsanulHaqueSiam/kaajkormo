@@ -1,0 +1,25 @@
+[Unit]
+Description=KaajKormo Backend API
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=kaajkormo
+Group=kaajkormo
+WorkingDirectory=/opt/kaajkormo/backend
+ExecStart=/opt/kaajkormo/backend/kaajkormo-backend
+EnvironmentFile=/opt/kaajkormo/backend/.env
+Restart=always
+RestartSec=5
+LimitNOFILE=65536
+
+# Security hardening
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/opt/kaajkormo/backend/uploads
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target
